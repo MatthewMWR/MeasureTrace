@@ -1,0 +1,154 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{A657D707-9261-4E64-9EB7-6F0B7B6DB1CA}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>MeasureTrace</RootNamespace>
+    <AssemblyName>MeasureTrace</AssemblyName>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <RunCodeAnalysis>true</RunCodeAnalysis>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="JetBrains.Annotations, Version=10.0.0.0, Culture=neutral, PublicKeyToken=1010a0d8d6380325, processorArchitecture=MSIL">
+      <HintPath>packages\JetBrains.Annotations.10.0.0\lib\net20\JetBrains.Annotations.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Diagnostics.Tracing.TraceEvent, Version=1.0.40.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>packages\Microsoft.Diagnostics.Tracing.TraceEvent.1.0.40\lib\net40\Microsoft.Diagnostics.Tracing.TraceEvent.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.IO.Compression" />
+    <Reference Include="System.IO.Compression.FileSystem" />
+    <Reference Include="System.ServiceProcess" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+    <Reference Include="WindowsBase" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Adapters\BxrRInterop.cs" />
+    <Compile Include="Adapters\IcuInterop.cs" />
+    <Compile Include="Adapters\IPopulateCoreTraceAttributesFromPackage.cs" />
+    <Compile Include="Adapters\TracePackageType.cs" />
+    <Compile Include="Adapters\v1ProcessorSupport.cs" />
+    <Compile Include="Adapters\WptInterop.cs" />
+    <Compile Include="Adapters\Zip.cs" />
+    <Compile Include="CalipersModel\Caliper.cs" />
+    <Compile Include="CalipersModel\ICaliper.cs" />
+    <Compile Include="CalipersModel\ProcessorBase.cs" />
+    <Compile Include="CalipersModel\ProcessorObservableBase.cs" />
+    <Compile Include="CalipersModel\ReducePathEntropyOptions.cs" />
+    <Compile Include="Calipers\ActiveDirectoryDomainKnowledge.cs" />
+    <Compile Include="Calipers\BootPhaseProcessor.cs" />
+    <Compile Include="Calipers\BootPhase.cs" />
+    <Compile Include="Calipers\CpuSampled.cs" />
+    <Compile Include="Calipers\DiskIoDomainKnowledge.cs" />
+    <Compile Include="Calipers\DiskIoProcessor.cs" />
+    <Compile Include="Calipers\DiskProcessor.cs" />
+    <Compile Include="Calipers\GroupPolicyActionProcessor.cs" />
+    <Compile Include="Calipers\GroupPolicyDomainKnowledge.cs" />
+    <Compile Include="Calipers\NetworkInterfaceProcessor.cs" />
+    <Compile Include="Calipers\ProcessLifetimeProcessor.cs" />
+    <Compile Include="Calipers\ServicesDomainKnowledge.cs" />
+    <Compile Include="Calipers\ServiceTransitionProcessor.cs" />
+    <Compile Include="Calipers\TraceAttribute.cs" />
+    <Compile Include="Calipers\SystemSleepProcessor.cs" />
+    <Compile Include="Calipers\TerminalSessionProcessor.cs" />
+    <Compile Include="Calipers\WinlogonDomainKnowledge.cs" />
+    <Compile Include="Calipers\WinlogonSubscriberProcessor.cs" />
+    <Compile Include="Logging.cs" />
+    <Compile Include="TraceJob.cs" />
+    <Compile Include="TraceModel\BootPhase.cs" />
+    <Compile Include="TraceModel\BootPhaseObserver.cs" />
+    <Compile Include="TraceModel\BootPhaseType.cs" />
+    <Compile Include="TraceModel\DiskIo.cs" />
+    <Compile Include="TraceModel\CpuSampled.cs" />
+    <Compile Include="TraceModel\GroupPolicyAction.cs" />
+    <Compile Include="TraceModel\GroupPolicyActivity.cs" />
+    <Compile Include="TraceModel\IMeasurement.cs" />
+    <Compile Include="Calipers\MeasurementExtensions.cs" />
+    <Compile Include="TraceModel\LogicalDisk.cs" />
+    <Compile Include="TraceModel\MeasurementQuality.cs" />
+    <Compile Include="TraceModel\MeasurementWithDuration.cs" />
+    <Compile Include="TraceModel\NetworkInterface.cs" />
+    <Compile Include="TraceModel\PhysicalDisk.cs" />
+    <Compile Include="TraceModel\ProcessLifetime.cs" />
+    <Compile Include="TraceModel\ReasonForSync.cs" />
+    <Compile Include="TraceModel\ServiceExecutionPhase.cs" />
+    <Compile Include="TraceModel\ServiceStartupType.cs" />
+    <Compile Include="TraceModel\ServiceTransition.cs" />
+    <Compile Include="TraceModel\ServiceTransitionTypeEx.cs" />
+    <Compile Include="TraceModel\SystemSleep.cs" />
+    <Compile Include="TraceModel\TerminalSession.cs" />
+    <Compile Include="TraceModel\Trace.cs" />
+    <Compile Include="TraceModel\TraceAttribute.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TraceModel\WinlogonSubscriberTask.cs" />
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <None Include="MeasureTrace-profileA.wpaProfile">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="MeasureTrace.nuspec">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="packages.config" />
+    <None Include="_TraceEventProgrammersGuide.docx" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="TraceEvent.ReadMe.txt" />
+    <Content Include="TraceEvent.ReleaseNotes.txt" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="packages\Microsoft.Diagnostics.Tracing.TraceEvent.1.0.39\build\Microsoft.Diagnostics.Tracing.TraceEvent.targets" Condition="Exists('packages\Microsoft.Diagnostics.Tracing.TraceEvent.1.0.39\build\Microsoft.Diagnostics.Tracing.TraceEvent.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('packages\Microsoft.Diagnostics.Tracing.TraceEvent.1.0.39\build\Microsoft.Diagnostics.Tracing.TraceEvent.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\Microsoft.Diagnostics.Tracing.TraceEvent.1.0.39\build\Microsoft.Diagnostics.Tracing.TraceEvent.targets'))" />
+    <Error Condition="!Exists('packages\Microsoft.Diagnostics.Tracing.TraceEvent.1.0.40\build\Microsoft.Diagnostics.Tracing.TraceEvent.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\Microsoft.Diagnostics.Tracing.TraceEvent.1.0.40\build\Microsoft.Diagnostics.Tracing.TraceEvent.targets'))" />
+  </Target>
+  <Import Project="packages\Microsoft.Diagnostics.Tracing.TraceEvent.1.0.40\build\Microsoft.Diagnostics.Tracing.TraceEvent.targets" Condition="Exists('packages\Microsoft.Diagnostics.Tracing.TraceEvent.1.0.40\build\Microsoft.Diagnostics.Tracing.TraceEvent.targets')" />
+  <PropertyGroup>
+    <PostBuildEvent>cmd /C nuget pack $(ProjectPath) -OutputDirectory \\ilabbootxray\uxRayPilotAdmin\NuGetRepo\</PostBuildEvent>
+  </PropertyGroup>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

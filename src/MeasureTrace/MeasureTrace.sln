@@ -1,0 +1,34 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.24720.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MeasureTrace", "MeasureTrace.csproj", "{A657D707-9261-4E64-9EB7-6F0B7B6DB1CA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MeasureTraceTests", "..\MeasureTraceTests\MeasureTraceTests.csproj", "{639E7F1D-0149-4C3B-9BEE-1E1D6803B099}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MeasureTrace.IntelliTests", "..\MeasureTrace.IntelliTests\MeasureTrace.IntelliTests.csproj", "{891693A0-FEF2-473C-9915-89C056C07019}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A657D707-9261-4E64-9EB7-6F0B7B6DB1CA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A657D707-9261-4E64-9EB7-6F0B7B6DB1CA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A657D707-9261-4E64-9EB7-6F0B7B6DB1CA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A657D707-9261-4E64-9EB7-6F0B7B6DB1CA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{639E7F1D-0149-4C3B-9BEE-1E1D6803B099}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{639E7F1D-0149-4C3B-9BEE-1E1D6803B099}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{639E7F1D-0149-4C3B-9BEE-1E1D6803B099}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{639E7F1D-0149-4C3B-9BEE-1E1D6803B099}.Release|Any CPU.Build.0 = Release|Any CPU
+		{891693A0-FEF2-473C-9915-89C056C07019}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{891693A0-FEF2-473C-9915-89C056C07019}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{891693A0-FEF2-473C-9915-89C056C07019}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{891693A0-FEF2-473C-9915-89C056C07019}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
