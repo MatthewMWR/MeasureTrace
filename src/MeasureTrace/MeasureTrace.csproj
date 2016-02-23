@@ -142,7 +142,8 @@
   </Target>
   <Import Project="packages\Microsoft.Diagnostics.Tracing.TraceEvent.1.0.40\build\Microsoft.Diagnostics.Tracing.TraceEvent.targets" Condition="Exists('packages\Microsoft.Diagnostics.Tracing.TraceEvent.1.0.40\build\Microsoft.Diagnostics.Tracing.TraceEvent.targets')" />
   <PropertyGroup>
-    <PostBuildEvent>cmd /C nuget pack $(ProjectPath) -OutputDirectory \\ilabbootxray\uxRayPilotAdmin\NuGetRepo\</PostBuildEvent>
+    <PostBuildEvent>
+    </PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
