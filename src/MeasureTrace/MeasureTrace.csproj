@@ -120,7 +120,7 @@
     <None Include="MeasureTrace-profileA.wpaProfile">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="MeasureTrace.nuspec">
+    <None Include="MeasureTrace.DEACTIVATED__nuspec__DEACTIVATED">
       <SubType>Designer</SubType>
     </None>
     <None Include="packages.config" />
