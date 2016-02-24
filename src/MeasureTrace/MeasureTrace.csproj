@@ -117,10 +117,6 @@
     <Compile Include="TraceModel\WinlogonSubscriberTask.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="TraceEvent.ReadMe.txt" />
-    <Content Include="TraceEvent.ReleaseNotes.txt" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="MeasureTrace-profileA.wpaProfile">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
@@ -129,6 +125,10 @@
     </None>
     <None Include="packages.config" />
     <None Include="_TraceEventProgrammersGuide.docx" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="TraceEvent.ReadMe.txt" />
+    <Content Include="TraceEvent.ReleaseNotes.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="packages\Microsoft.Diagnostics.Tracing.TraceEvent.1.0.39\build\Microsoft.Diagnostics.Tracing.TraceEvent.targets" Condition="Exists('packages\Microsoft.Diagnostics.Tracing.TraceEvent.1.0.39\build\Microsoft.Diagnostics.Tracing.TraceEvent.targets')" />
