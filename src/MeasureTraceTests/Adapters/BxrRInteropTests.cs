@@ -15,7 +15,7 @@ namespace MeasureTrace.Adapters.Tests
         public void PopulateCoreTraceAttributesFromPackageTest()
         {
             var testFileName = "BxrR__S-ome_Machine__BOOT__2015-08-21_11-50-37__Z2.zip";
-            var trace = new Trace();
+            var trace = new Trace() {DataFileNameRelative = testFileName};
             BxrRInterop.PopulateCoreTraceAttributesFromPackage(trace);
             Assert.True(string.Equals(trace.ComputerName, "S-ome_Machine", StringComparison.OrdinalIgnoreCase));
             Assert.True( trace.TracePackageTime.Year == 2015);
