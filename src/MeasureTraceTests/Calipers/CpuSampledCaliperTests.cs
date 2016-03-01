@@ -4,8 +4,6 @@ using System;
 using System.IO;
 using System.Linq;
 using MeasureTrace;
-using MeasureTrace.Calipers;
-using MeasureTrace.TraceModel;
 using Xunit;
 
 namespace MeasureTraceTests.Calipers

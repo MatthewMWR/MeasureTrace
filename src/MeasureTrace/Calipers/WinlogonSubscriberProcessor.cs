@@ -8,6 +8,7 @@ using MeasureTrace.Adapters;
 using MeasureTrace.CalipersModel;
 using MeasureTrace.TraceModel;
 using Microsoft.Diagnostics.Tracing;
+
 #pragma warning disable 618
 
 namespace MeasureTrace.Calipers

@@ -4,7 +4,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using MeasureTrace.CalipersModel;
-using MeasureTrace.TraceModel;
 using Microsoft.Diagnostics.Tracing.Parsers.Kernel;
 
 namespace MeasureTrace.Calipers
@@ -12,7 +11,9 @@ namespace MeasureTrace.Calipers
     public class CpuSampled : ICaliper
     {
         private readonly int _intervalLengthMSec = 5000;
-        private readonly List<TraceModel.CpuSampled> _rawMeasurementsForCurrentTimeSlice = new List<TraceModel.CpuSampled>();
+
+        private readonly List<TraceModel.CpuSampled> _rawMeasurementsForCurrentTimeSlice =
+            new List<TraceModel.CpuSampled>();
 
 
         private int _cpuCoreCount;

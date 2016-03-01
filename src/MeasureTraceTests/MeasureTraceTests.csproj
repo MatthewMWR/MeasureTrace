@@ -76,9 +76,7 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="Adapters\BxrRInteropTests.cs" />
-    <Compile Include="Adapters\IcuInteropTests.cs" />
-    <Compile Include="Adapters\UnitTest1.cs" />
+    <Compile Include="Adapters\AdapterTests.cs" />
     <Compile Include="Calipers\BootPhaseCaliperTests.cs" />
     <Compile Include="Calipers\CpuSampledCaliperTests.cs" />
     <Compile Include="Calipers\MeasurementExtensionsTests.cs" />
@@ -88,6 +86,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+    <None Include="TestData\20160107-103455_CLINTH-SP3_UserInitiated.zip">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="TestData\20160212-102918_WIN7-32_Clue_ProcessorTimeGt90.zip">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
@@ -95,6 +96,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="TestData\BOOT__GenericLightlyManaged.zip">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="TestData\BxrR__BX-WIN81__BOOT__2016-02-28_17-47-29__Z2.zip">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="TestData\GarbageData.etl">

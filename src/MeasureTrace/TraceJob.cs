@@ -17,7 +17,7 @@ namespace MeasureTrace
     public sealed class TraceJob : IDisposable
     {
         private readonly IList<ICaliper> _calipers = new List<ICaliper>();
-        private readonly Trace _trace = new Trace();
+        private int _populateTraceCoreAttributesCallCount;
         private string _processingPath;
         private string _stablePath;
         private TracePackageType _tracePackageType;
@@ -28,25 +28,19 @@ namespace MeasureTrace
         public TraceJob([NotNull] string etlPath)
         {
             if (string.IsNullOrWhiteSpace(etlPath)) throw new FileNotFoundException();
-            _trace = new Trace();
+            Trace = new Trace();
             MeasurementsInProgress = new ConcurrentBag<IMeasurement>();
             UserData = new ConcurrentDictionary<object, object>();
             ResolveDataPaths(etlPath);
             EtwTraceEventSource = new ETWTraceEventSource(_processingPath);
-            PopulateTraceCoreAttributes();
         }
 
-        private void PopulateTraceCoreAttributes()
-        {
-            _trace.TraceSessionStart = EtwTraceEventSource.SessionStartTime;
-            if(_tracePackageType == TracePackageType.IcuZip) IcuInterop.PopulateCoreTraceAttributesFromPackage(_trace);
-            else if (_tracePackageType == TracePackageType.BxrRZip) BxrRInterop.PopulateCoreTraceAttributesFromPackage(_trace);
-        }
+        public Trace Trace { get; }
 
         //public TraceJob(Trace sparseTrace)
         //{
         //    if (sparseTrace== null) throw new ArgumentNullException(nameof(sparseTrace));
-        //    _trace = sparseTrace;
+        //    Trace = sparseTrace;
         //    if (string.IsNullOrWhiteSpace(sparseTrace.DataPathStable)) throw new FileNotFoundException();
         //    MeasurementsInProgress = new ConcurrentBag<IMeasurement>();
         //    UserData = new ConcurrentDictionary<object, object>();
@@ -67,11 +61,22 @@ namespace MeasureTrace
             if (_zipOutPath != null) Directory.Delete(_zipOutPath.FullName, true);
         }
 
+        public void PopulateTraceCoreAttributes()
+        {
+            _populateTraceCoreAttributesCallCount++;
+            Trace.TraceSessionStart = EtwTraceEventSource.SessionStartTime;
+            IPackageAdapter adapter = null;
+            if (_tracePackageType == TracePackageType.IcuZip) adapter = new CluePackageAdapter();
+            else if (_tracePackageType == TracePackageType.BxrRZip) adapter = new BxrRPackageAdapter();
+            if (adapter != null) adapter.PopulateTraceAttributesFromFileName(Trace, Trace.DataFileNameRelative);
+            if (adapter != null) adapter.PopulateTraceAttributesFromPackageContents(Trace, _zipOutPath.FullName);
+        }
+
         public Trace Measure()
         {
-            PopulateTraceCoreAttributes();
+            if (_populateTraceCoreAttributesCallCount == 0) PopulateTraceCoreAttributes();
 
-            OnNewMeasurementAny += m => _trace.AddMeasurement(m);
+            OnNewMeasurementAny += m => Trace.AddMeasurement(m);
             foreach (var c in _calipers)
             {
                 c.RegisterFirstPass(this);
@@ -92,7 +97,7 @@ namespace MeasureTrace
                 c.RegisterSecondPass(this);
             }
             EtwTraceEventSource.Process();
-            return _trace;
+            return Trace;
         }
 
         public void RegisterCaliperByType<TCaliper>(TCaliper caliper) where TCaliper : ICaliper, new()
@@ -152,12 +157,15 @@ namespace MeasureTrace
                 if (firstEtl == null) throw new FileNotFoundException(_zipOutPath.FullName);
                 _stablePath = zipPath;
                 _processingPath = firstEtl.FullName;
-                if( Regex.IsMatch(fileInfo.Name, BxrRInterop.BxrRFileNamePattern, RegexOptions.IgnoreCase)) _tracePackageType = TracePackageType.BxrRZip;
-                else if (Regex.IsMatch(fileInfo.Name, IcuInterop.IcuFileNamePattern, RegexOptions.IgnoreCase)) _tracePackageType = TracePackageType.IcuZip;
+                if (Regex.IsMatch(fileInfo.Name, BxrRPackageAdapter.BxrRFileNamePattern, RegexOptions.IgnoreCase))
+                    _tracePackageType = TracePackageType.BxrRZip;
+                else if (Regex.IsMatch(fileInfo.Name, CluePackageAdapter.IcuFileNamePattern, RegexOptions.IgnoreCase))
+                    _tracePackageType = TracePackageType.IcuZip;
                 else _tracePackageType = TracePackageType.GenericZip;
             }
-            _trace.DataPathDuringProcessing = _processingPath;
-            _trace.DataPathStable = _stablePath;
+            Trace.DataPathDuringProcessing = _processingPath;
+            Trace.DataPathStable = _stablePath;
+            Trace.DataFileNameRelative = Path.GetFileName(_stablePath);
         }
 
         public void OnNewMeasurementOfType<TMeasurement>(Action<TMeasurement> myDelegate)

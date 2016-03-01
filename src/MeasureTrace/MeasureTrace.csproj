@@ -47,6 +47,7 @@
     <Reference Include="System.Core" />
     <Reference Include="System.IO.Compression" />
     <Reference Include="System.IO.Compression.FileSystem" />
+    <Reference Include="System.Management" />
     <Reference Include="System.ServiceProcess" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -57,9 +58,11 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Adapters\BxrRInterop.cs" />
+    <Compile Include="Adapters\BxrRPackageAdapter.cs" />
+    <Compile Include="Adapters\CluePackageAdapter.cs" />
     <Compile Include="Adapters\IcuInterop.cs" />
     <Compile Include="Adapters\IPopulateCoreTraceAttributesFromPackage.cs" />
+    <Compile Include="Adapters\IPackageAdapter.cs" />
     <Compile Include="Adapters\TracePackageType.cs" />
     <Compile Include="Adapters\v1ProcessorSupport.cs" />
     <Compile Include="Adapters\WptInterop.cs" />

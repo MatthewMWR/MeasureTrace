@@ -18,16 +18,16 @@ namespace MeasureTrace.TraceModel
         public string DataFileNameRelative { get; set; }
         public string DataPathDuringProcessing { get; set; }
 
+        public string ComputerName { get; set; }
+        public DateTime TraceSessionStart { get; set; }
+        public DateTime TraceDataStart { get; set; }
+        public DateTime TracePackageTime { get; set; }
+
         public void AddMeasurement(IMeasurement measurement)
         {
             measurement.Trace = this;
             _measurements.Add(measurement);
         }
-
-        public string ComputerName { get; set; }
-        public DateTime TraceSessionStart { get; set; }
-        public DateTime TraceDataStart { get; set; }
-        public DateTime TracePackageTime { get; set; }
 
 
         public IEnumerable<TMeasurement> GetMeasurements<TMeasurement>()

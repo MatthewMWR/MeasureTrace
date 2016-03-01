@@ -1,7 +1,5 @@
 ﻿// Copyright and license at https://github.com/MatthewMWR/MeasureTrace/blob/master/LICENSE
 
-using System.Collections.Generic;
-
 namespace MeasureTrace.TraceModel
 {
     public class NetworkInterface : IMeasurement

@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Reflection;
 using MeasureTrace.CalipersModel;
-using MeasureTrace.TraceModel;
-using Microsoft.Diagnostics.Tracing;
 
 namespace MeasureTrace.Calipers
 {
@@ -40,10 +37,10 @@ namespace MeasureTrace.Calipers
         {
         }
 
-       private static void PublishSysConfigAttribute(TraceJob traceJob, string propertyName, string stringValue)
+        private static void PublishSysConfigAttribute(TraceJob traceJob, string propertyName, string stringValue)
         {
             traceJob.PublishMeasurement(
-                new TraceModel.TraceAttribute()
+                new TraceModel.TraceAttribute
                 {
                     Name = propertyName,
                     StringValue = stringValue
@@ -54,7 +51,7 @@ namespace MeasureTrace.Calipers
         private static void PublishSysConfigAttribute(TraceJob traceJob, string propertyName, double doubleValue)
         {
             traceJob.PublishMeasurement(
-                new TraceModel.TraceAttribute()
+                new TraceModel.TraceAttribute
                 {
                     Name = propertyName,
                     DecimalValue = doubleValue
@@ -65,7 +62,7 @@ namespace MeasureTrace.Calipers
         private static void PublishSysConfigAttribute(TraceJob traceJob, string propertyName, int intValue)
         {
             traceJob.PublishMeasurement(
-                new TraceModel.TraceAttribute()
+                new TraceModel.TraceAttribute
                 {
                     Name = propertyName,
                     WholeNumberValue = intValue
@@ -76,7 +73,7 @@ namespace MeasureTrace.Calipers
         private static void PublishSysConfigAttribute(TraceJob traceJob, string propertyName, DateTime value)
         {
             traceJob.PublishMeasurement(
-                new TraceModel.TraceAttribute()
+                new TraceModel.TraceAttribute
                 {
                     Name = propertyName,
                     DateTimeValue = value

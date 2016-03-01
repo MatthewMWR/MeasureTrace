@@ -7,32 +7,22 @@ using MeasureTrace.Adapters;
 using MeasureTrace.CalipersModel;
 using MeasureTrace.TraceModel;
 using Microsoft.Diagnostics.Tracing;
+
 #pragma warning disable 618
 
 namespace MeasureTrace.Calipers
 {
     public class GroupPolicyActionProcessor : ProcessorBase, IObserver<IMeasurement>, IObserver<TraceEvent>
     {
-        //private readonly List<GroupPolicyActivity> _gpActivities = new List<GroupPolicyActivity>();
         private readonly List<IsConsumedDecorator<TraceEvent>> _gpEvents = new List<IsConsumedDecorator<TraceEvent>>();
-        //private readonly List<WinlogonSubscriberTask> _wlSubscriberTasks = new List<WinlogonSubscriberTask>();
-        //private List<MeasurementInProgress> _inProgress = new List<MeasurementInProgress>();
 
         public void OnNext(IMeasurement value)
         {
             var wlMeasurement = (WinlogonSubscriberTask) value;
             if (wlMeasurement != null)
             {
-                //_wlSubscriberTasks.Add(wlMeasurement);
                 AssembleGpActionsAsPossible();
             }
-
-            //var gpMeasurement = (GroupPolicyActivity) value;
-            //if (gpMeasurement != null)
-            //{
-            //    _gpActivities.Add(gpMeasurement);
-            //    AssembleGpActionsAsPossible();
-            //}
         }
 
         public void OnCompleted()
@@ -59,11 +49,6 @@ namespace MeasureTrace.Calipers
                 traceJob.RegisterProcessorByType<WinlogonSubscriberProcessor>(
                     ProcessorTypeCollisionOption.UseExistingIfFound).Subscribe(this)
                 );
-
-            //Subscriptions.Add(
-            //    traceJob.RegisterProcessorByType<GroupPolicyActivityProcessor>(
-            //        ProcessorTypeCollisionOption.UseExistingIfFound).Subscribe(this)
-            //    );
         }
 
         private void AssembleGpActionsAsPossible()
@@ -78,7 +63,6 @@ namespace MeasureTrace.Calipers
                 AssembleFirstPhasesAsPossible(activityStartEvent.Value, activityIdGroup.AsEnumerable());
                 AssembleSecondPhasesAsPossible(activityStartEvent.Value, activityIdGroup.AsEnumerable());
                 AssembleCseActionsAsPossible(activityStartEvent.Value, activityIdGroup.AsEnumerable());
-                //AssembleActivityEndsAsPossible(activityStartEvent.Value, activityIdGroup.AsEnumerable());
             }
         }
 
@@ -117,11 +101,6 @@ namespace MeasureTrace.Calipers
                 RegisterMeasurement(m);
             }
         }
-
-        //private void AssembleActivityEndsAsPossible(TraceEvent activityStartEvent, IEnumerable<IsConsumedDecorator<TraceEvent>> activityEvents)
-        //{
-        //    throw new NotImplementedException();
-        //}
 
         private void AssembleSecondPhasesAsPossible(TraceEvent activityStartEvent,
             IEnumerable<IsConsumedDecorator<TraceEvent>> activityEvents)

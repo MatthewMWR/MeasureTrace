@@ -37,6 +37,7 @@ namespace MeasureTrace.TraceModel
         {
             return isDpc ? "DPC" : isIsr ? "ISR" : $"{processName} ({processId})";
         }
+
         public static string CalculateSource(bool isDpc, bool isIsr, string processName)
         {
             return isDpc ? "DPC" : isIsr ? "ISR" : $"{processName}";

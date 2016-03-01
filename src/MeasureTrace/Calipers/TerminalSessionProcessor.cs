@@ -7,6 +7,7 @@ using MeasureTrace.CalipersModel;
 using MeasureTrace.TraceModel;
 using Microsoft.Diagnostics.Tracing;
 using Microsoft.Diagnostics.Tracing.Parsers.Kernel;
+
 #pragma warning disable 618
 
 namespace MeasureTrace.Calipers
