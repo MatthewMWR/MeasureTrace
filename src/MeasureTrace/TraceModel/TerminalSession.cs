@@ -28,7 +28,7 @@ namespace MeasureTrace.TraceModel
         }
 
         public Trace Trace { get; set; }
-        public int TraceId { get; set; }
+        //public int TraceId { get; set; }
 
         public override MeasurementQuality MeasurementQuality
         {

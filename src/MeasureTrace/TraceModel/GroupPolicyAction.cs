@@ -31,7 +31,7 @@ namespace MeasureTrace.TraceModel
         }
 
         public int Id { get; set; }
-        public int MeasuredTraceId { get; set; }
+        //public int MeasuredTraceId { get; set; }
         public WinlogonNotificationType WinlogonNotificationType { get; set; }
         public GroupPolicyActionType ActionType { get; set; }
         public string ScriptName { get; set; }
@@ -94,7 +94,7 @@ namespace MeasureTrace.TraceModel
         }
 
         public Trace Trace { get; set; }
-        public int TraceId { get; set; }
+        //public int TraceId { get; set; }
     }
 
     public enum GroupPolicyActionType

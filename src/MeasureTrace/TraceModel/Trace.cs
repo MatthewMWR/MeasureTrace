@@ -12,7 +12,7 @@ namespace MeasureTrace.TraceModel
         private readonly ConcurrentBag<IMeasurement> _measurements = new ConcurrentBag<IMeasurement>();
         public IEnumerable<TraceAttribute> TraceAttributes => _measurements.OfType<TraceAttribute>();
 
-        public int Id { get; set; }
+        //public int Id { get; set; }
 
         public string DataPathStable { get; set; }
         public string DataFileNameRelative { get; set; }

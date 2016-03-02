@@ -4,8 +4,9 @@ namespace MeasureTrace.TraceModel
 {
     public interface IMeasurement
     {
-        Trace Trace { get; set; }
-        int TraceId { get; set; }
+        //Trace Trace { get; set; }
+        //int TraceId { get; set; }
         MeasurementQuality MeasurementQuality { get; }
+        Trace Trace { get; set; }
     }
 }

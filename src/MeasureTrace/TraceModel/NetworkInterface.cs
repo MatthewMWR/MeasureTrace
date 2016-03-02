@@ -12,7 +12,7 @@ namespace MeasureTrace.TraceModel
         public string SubnetLabel { get; set; }
         public string Description { get; set; }
         public Trace Trace { get; set; }
-        public int TraceId { get; set; }
+        //public int TraceId { get; set; }
         public MeasurementQuality MeasurementQuality => MeasurementQuality.DefaultUsable;
     }
 }

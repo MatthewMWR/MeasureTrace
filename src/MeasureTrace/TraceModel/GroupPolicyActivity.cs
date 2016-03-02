@@ -8,7 +8,7 @@ namespace MeasureTrace.TraceModel
     public class GroupPolicyActivity : MeasurementWithDuration, IMeasurement
     {
         public int Id { get; set; }
-        public int MeasuredTraceId { get; set; }
+        //public int MeasuredTraceId { get; set; }
         public WinlogonNotificationType WinlogonNotificationType { get; set; }
         public int ForSessionId { get; set; }
         //public virtual WinlogonSubscriberTask WinlogonSubscriberTask { get; set; }
@@ -46,7 +46,7 @@ namespace MeasureTrace.TraceModel
         //  This is for compatibility with a bug in EF7
         //  Hopefully these can be removed in the future.
         public Trace Trace { get; set; }
-        public int TraceId { get; set; }
+        //public int TraceId { get; set; }
     }
 
     public enum GpoScope

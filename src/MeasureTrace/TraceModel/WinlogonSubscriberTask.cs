@@ -46,6 +46,6 @@ namespace MeasureTrace.TraceModel
         //  This is for compatibility with a bug in EF7
         //  Hopefully these can be removed in the future.
         public Trace Trace { get; set; }
-        public int TraceId { get; set; }
+        //public int TraceId { get; set; }
     }
 }

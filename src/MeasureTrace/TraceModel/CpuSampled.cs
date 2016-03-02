@@ -30,7 +30,7 @@ namespace MeasureTrace.TraceModel
         public int TimeSliceIndex { get; set; }
         public int TimeSliceLengthMSec { get; set; }
         public Trace Trace { get; set; }
-        public int TraceId { get; set; }
+        //public int TraceId { get; set; }
         public MeasurementQuality MeasurementQuality => MeasurementQuality.DefaultUsable;
 
         public static string CalculateSource(bool isDpc, bool isIsr, string processName, int processId)

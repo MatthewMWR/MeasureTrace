@@ -29,7 +29,7 @@ namespace MeasureTrace.TraceModel
         public string SystemWideWinDirPath { get; set; }
         public string SystemWideWinDirSystem32Path { get; set; }
         public Trace Trace { get; set; }
-        public int TraceId { get; set; }
+        //public int TraceId { get; set; }
         public MeasurementQuality MeasurementQuality => MeasurementQuality.DefaultUsable;
     }
 }
