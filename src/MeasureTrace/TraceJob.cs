@@ -37,16 +37,17 @@ namespace MeasureTrace
 
         public Trace Trace { get; }
 
-        //public TraceJob(Trace sparseTrace)
-        //{
-        //    if (sparseTrace== null) throw new ArgumentNullException(nameof(sparseTrace));
-        //    Trace = sparseTrace;
-        //    if (string.IsNullOrWhiteSpace(sparseTrace.DataPathStable)) throw new FileNotFoundException();
-        //    MeasurementsInProgress = new ConcurrentBag<IMeasurement>();
-        //    UserData = new ConcurrentDictionary<object, object>();
-        //    ResolveDataPaths(sparseTrace.DataPathStable);
-        //    EtwTraceEventSource = new ETWTraceEventSource(_processingPath);
-        //}
+        [UsedImplicitly]
+        public TraceJob(Trace sparseTrace)
+        {
+            if (sparseTrace == null) throw new ArgumentNullException(nameof(sparseTrace));
+            Trace = sparseTrace;
+            if (string.IsNullOrWhiteSpace(sparseTrace.DataPathStable)) throw new FileNotFoundException();
+            MeasurementsInProgress = new ConcurrentBag<IMeasurement>();
+            UserData = new ConcurrentDictionary<object, object>();
+            ResolveDataPaths(sparseTrace.DataPathStable);
+            EtwTraceEventSource = new ETWTraceEventSource(_processingPath);
+        }
 
         public ETWTraceEventSource EtwTraceEventSource { get; set; }
 
