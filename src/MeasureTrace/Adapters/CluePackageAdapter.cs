@@ -67,7 +67,7 @@ namespace MeasureTrace.Adapters
             var icuMeta = XElement.Load(pathToIcuMetaFile);
             var attributeValue = icuMeta.Attribute(XName.Get(NameOfIcuMetaEmailReportToAttribute, "")).Value;
             if (string.IsNullOrWhiteSpace(attributeValue))
-                throw new ApplicationException(LabelOfNoEmailReportToAddress);
+                Logging.LogDebugMessage(LabelOfNoEmailReportToAddress);
             return attributeValue.Split(';').AsEnumerable();
         }
 
