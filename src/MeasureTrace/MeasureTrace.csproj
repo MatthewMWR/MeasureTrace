@@ -123,14 +123,11 @@
     <None Include="MeasureTrace-profileA.wpaProfile">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="MeasureTrace.DEACTIVATED__nuspec__DEACTIVATED">
-      <SubType>Designer</SubType>
-    </None>
     <None Include="packages.config" />
     <None Include="_TraceEventProgrammersGuide.docx" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="nuget34rc.exe" />
+    <Content Include="nuget.exe" />
     <Content Include="TraceEvent.ReadMe.txt" />
     <Content Include="TraceEvent.ReleaseNotes.txt" />
   </ItemGroup>
