@@ -8,7 +8,6 @@ using System.Runtime.InteropServices;
 
 [assembly: AssemblyTitle("MeasureTrace")]
 [assembly: AssemblyDescription("https://github.com/MatthewMWR/MeasureTrace")]
-[assembly: AssemblyConfiguration("Debug")]
 [assembly: AssemblyCopyright("Copyright © Microsoft 2015")]
 
 
@@ -36,7 +35,7 @@ using System.Runtime.InteropServices;
 
 [assembly: AssemblyVersion("1.0.*")]
 //[assembly: AssemblyInformationalVersion("1.0.*-experimental")]
-[assembly: AssemblyInformationalVersion("1.0.*-alpha")]
+//[assembly: AssemblyInformationalVersion("-alpha")]
 
 
 
