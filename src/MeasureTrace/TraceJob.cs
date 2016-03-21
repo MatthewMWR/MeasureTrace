@@ -134,7 +134,6 @@ namespace MeasureTrace
             }
         }
 
-
         private void ResolveDataPaths([NotNull] string etlPath)
         {
             //  If the path does not exist or is blank, etc. IO exceptions will be thrown
