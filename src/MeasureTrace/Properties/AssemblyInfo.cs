@@ -1,5 +1,4 @@
 ﻿using System.Reflection;
-using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
 // General Information about an assembly is controlled through the following 
@@ -7,7 +6,8 @@ using System.Runtime.InteropServices;
 // associated with an assembly.
 
 [assembly: AssemblyTitle("MeasureTrace")]
-[assembly: AssemblyDescription("https://github.com/MatthewMWR/MeasureTrace")]
+[assembly: AssemblyDescription("Measuring operations of interest from event traces. Info at https://github.com/MatthewMWR/MeasureTrace")]
+[assembly: AssemblyCompany("Matthew Reynolds (@MatthewMWR) from Microsoft")]
 [assembly: AssemblyCopyright("Copyright © Microsoft 2015")]
 
 
@@ -34,8 +34,6 @@ using System.Runtime.InteropServices;
 // [assembly: AssemblyVersion("1.0.*")]
 
 [assembly: AssemblyVersion("1.0.*")]
-//[assembly: AssemblyInformationalVersion("1.0.*-experimental")]
-//[assembly: AssemblyInformationalVersion("-alpha")]
 
 
 
