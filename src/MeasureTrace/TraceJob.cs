@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
+using System.Threading;
 using JetBrains.Annotations;
 using MeasureTrace.Adapters;
 using MeasureTrace.CalipersModel;
@@ -22,6 +23,8 @@ namespace MeasureTrace
         private string _stablePath;
         private TracePackageType _tracePackageType;
         private DirectoryInfo _zipOutPath;
+        private int _deleteZipOutPathCurrentTry = 1;
+        private int _deleteZipOutPathMaxTry = 3;
         public Action<IMeasurement> OnNewMeasurementAny;
         public IList<ProcessorBase> V1ProcessorsInternallyOwned = new List<ProcessorBase>();
 
@@ -59,7 +62,21 @@ namespace MeasureTrace
         public void Dispose()
         {
             EtwTraceEventSource?.Dispose();
-            if (_zipOutPath != null) Directory.Delete(_zipOutPath.FullName, true);
+            if (_zipOutPath == null) return;
+            while (_zipOutPath.Exists && _deleteZipOutPathCurrentTry <= _deleteZipOutPathMaxTry)
+            {
+                _deleteZipOutPathCurrentTry++;
+                try
+                {
+                    _zipOutPath.Delete(true);
+                }
+                catch(Exception e)
+                {
+                    Logging.LogDebugMessage(e.Message);
+                    Thread.Sleep(1000);
+                }
+            }
+            if(_zipOutPath.Exists) Logging.LogDebugMessage($"Temp dir could not be deleted automatically {_zipOutPath.FullName}");
         }
 
         public void PopulateTraceCoreAttributes()
