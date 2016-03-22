@@ -18,13 +18,13 @@ namespace MeasureTrace
     public sealed class TraceJob : IDisposable
     {
         private readonly IList<ICaliper> _calipers = new List<ICaliper>();
+        private int _deleteZipOutPathCurrentTry = 1;
+        private readonly int _deleteZipOutPathMaxTry = 3;
         private int _populateTraceCoreAttributesCallCount;
         private string _processingPath;
         private string _stablePath;
         private TracePackageType _tracePackageType;
         private DirectoryInfo _zipOutPath;
-        private int _deleteZipOutPathCurrentTry = 1;
-        private int _deleteZipOutPathMaxTry = 3;
         public Action<IMeasurement> OnNewMeasurementAny;
         public IList<ProcessorBase> V1ProcessorsInternallyOwned = new List<ProcessorBase>();
 
@@ -38,8 +38,6 @@ namespace MeasureTrace
             EtwTraceEventSource = new ETWTraceEventSource(_processingPath);
         }
 
-        public Trace Trace { get; }
-
         [UsedImplicitly]
         public TraceJob(Trace sparseTrace)
         {
@@ -51,6 +49,8 @@ namespace MeasureTrace
             ResolveDataPaths(sparseTrace.DataPathStable);
             EtwTraceEventSource = new ETWTraceEventSource(_processingPath);
         }
+
+        public Trace Trace { get; }
 
         public ETWTraceEventSource EtwTraceEventSource { get; set; }
 
@@ -70,13 +70,14 @@ namespace MeasureTrace
                 {
                     _zipOutPath.Delete(true);
                 }
-                catch(Exception e)
+                catch (Exception e)
                 {
                     Logging.LogDebugMessage(e.Message);
                     Thread.Sleep(1000);
                 }
             }
-            if(_zipOutPath.Exists) Logging.LogDebugMessage($"Temp dir could not be deleted automatically {_zipOutPath.FullName}");
+            if (_zipOutPath.Exists)
+                Logging.LogDebugMessage($"Temp dir could not be deleted automatically {_zipOutPath.FullName}");
         }
 
         public void PopulateTraceCoreAttributes()
@@ -120,14 +121,18 @@ namespace MeasureTrace
 
         public void RegisterCaliperByType<TCaliper>(TCaliper caliper) where TCaliper : ICaliper, new()
         {
-            var c = new TCaliper();
-            _calipers.Add(c);
+            RegisterCaliperByType<TCaliper>();
         }
 
         public void RegisterCaliperByType<TCaliper>() where TCaliper : ICaliper, new()
         {
             var c = new TCaliper();
             _calipers.Add(c);
+        }
+
+        public void RegisterCaliper(ICaliper caliper)
+        {
+            _calipers.Add(caliper);
         }
 
         public void OnNewMeasurementOfType<TMeasurement>(Delegate myDelegate)

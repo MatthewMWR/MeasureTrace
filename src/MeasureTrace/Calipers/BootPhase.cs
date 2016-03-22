@@ -99,8 +99,9 @@ namespace MeasureTrace.Calipers
                     if (IdleAccumulationCutoffMs > accumulatedIdleMs) return;
                     var postBootEndOffsetMinusAccumulatedIdle = e.TimeStampRelativeMSec - accumulatedIdleMs;
                     var bootToDesktop =
-                        _alreadyRegisteredBootPhases.First(
+                        _alreadyRegisteredBootPhases.FirstOrDefault(
                             bp => bp.BootPhaseType == BootPhaseType.FromPowerOnUntilDesktopAppears);
+                    if (bootToDesktop == null) return;
                     var postBootOnlyRawDurationMs = postBootEndOffsetMinusAccumulatedIdle - bootToDesktop.DurationMSec;
                     var postBootDurationCleaned = CalculateRollOffPostBootValue(postBootOnlyRawDurationMs.Value);
                     var desktopAppearsToDestkopResponsive = new TraceModel.BootPhase
@@ -114,7 +115,7 @@ namespace MeasureTrace.Calipers
                     {
                         BootPhaseObserver = BootPhaseObserver.MeasureTrace,
                         BootPhaseType = BootPhaseType.FromPowerOnUntilDesktopResponsive,
-                        DurationMSec = e.TimeStampRelativeMSec - (postBootOnlyRawDurationMs - postBootDurationCleaned)
+                        DurationMSec = bootToDesktop.DurationMSec + desktopAppearsToDestkopResponsive.DurationMSec
                     });
                 }
             });

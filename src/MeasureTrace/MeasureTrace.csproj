@@ -92,11 +92,15 @@
     <Compile Include="Calipers\WinlogonSubscriberProcessor.cs" />
     <Compile Include="Logging.cs" />
     <Compile Include="TraceJob.cs" />
+    <Compile Include="TraceExtension.cs" />
+    <Compile Include="TraceJobExtension.cs" />
     <Compile Include="TraceModel\BootPhase.cs" />
     <Compile Include="TraceModel\BootPhaseObserver.cs" />
     <Compile Include="TraceModel\BootPhaseType.cs" />
     <Compile Include="TraceModel\DiskIo.cs" />
     <Compile Include="TraceModel\CpuSampled.cs" />
+    <Compile Include="TraceModel\GpPolicyApplicationMode.cs" />
+    <Compile Include="TraceModel\GpScope.cs" />
     <Compile Include="TraceModel\GroupPolicyAction.cs" />
     <Compile Include="TraceModel\GroupPolicyActivity.cs" />
     <Compile Include="TraceModel\IMeasurement.cs" />
@@ -106,6 +110,7 @@
     <Compile Include="TraceModel\MeasurementWithDuration.cs" />
     <Compile Include="TraceModel\NetworkInterface.cs" />
     <Compile Include="TraceModel\PhysicalDisk.cs" />
+    <Compile Include="TraceModel\PolicyApplicationTrigger.cs" />
     <Compile Include="TraceModel\ProcessLifetime.cs" />
     <Compile Include="TraceModel\ReasonForSync.cs" />
     <Compile Include="TraceModel\ServiceExecutionPhase.cs" />

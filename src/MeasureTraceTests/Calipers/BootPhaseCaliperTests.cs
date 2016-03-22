@@ -21,18 +21,23 @@ namespace MeasureTraceTests.Calipers
             File.Copy(sourcePath, destPath, true);
             using (var tj = new TraceJob(destPath))
             {
-                //tj.RegisterProcessorByType<BootPhaseProcessor>(ProcessorTypeCollisionOption.UseExistingIfFound);
                 tj.RegisterCaliperByType<BootPhase>();
                 var t = tj.Measure();
                 Assert.NotNull(t);
                 Assert.True(
-                    t.GetMeasurements<MeasureTrace.TraceModel.BootPhase>().Count(p => p.BootPhaseObserver == BootPhaseObserver.MeasureTrace) ==
+                    t.GetMeasurements<MeasureTrace.TraceModel.BootPhase>()
+                        .Count(p => p.BootPhaseObserver == BootPhaseObserver.MeasureTrace) ==
                     5);
-                Assert.True(t.GetMeasurements<MeasureTrace.TraceModel.BootPhase>().First(bp => bp.BootPhaseType == BootPhaseType.FromPowerOnUntilDesktopResponsive).DurationMSec > 38000);
-                Assert.True(t.GetMeasurements<MeasureTrace.TraceModel.BootPhase>().First(bp => bp.BootPhaseType == BootPhaseType.FromPowerOnUntilDesktopResponsive).DurationMSec < 41000);
-                //Assert.True(
-                //    t.GetMeasurements<BootPhase>()
-                //        .Count(p => p.BootPhaseObserver == BootPhaseObserver.WpaExporterBootPhases) == 6);
+                var untilReadyForLogon =
+                    t.GetMeasurements<MeasureTrace.TraceModel.BootPhase>()
+                        .First(p => p.BootPhaseType == BootPhaseType.FromPowerOnUntilReadyForLogon);
+                Assert.True(untilReadyForLogon.DurationSeconds > 7);
+                Assert.True(untilReadyForLogon.DurationSeconds < 8);
+                var powerOnTillDesktopResponsive =
+                    t.GetMeasurements<MeasureTrace.TraceModel.BootPhase>()
+                        .First(bp => bp.BootPhaseType == BootPhaseType.FromPowerOnUntilDesktopResponsive);
+                Assert.True(powerOnTillDesktopResponsive.DurationSeconds > 36);
+                Assert.True(powerOnTillDesktopResponsive.DurationSeconds < 37);
                 Assert.True(t.GetMeasurements<TerminalSession>().Count() == 3);
             }
         }

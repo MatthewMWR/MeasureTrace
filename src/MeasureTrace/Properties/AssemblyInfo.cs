@@ -6,10 +6,11 @@ using System.Runtime.InteropServices;
 // associated with an assembly.
 
 [assembly: AssemblyTitle("MeasureTrace")]
-[assembly: AssemblyDescription("Measuring operations of interest from event traces. Info at https://github.com/MatthewMWR/MeasureTrace")]
+[assembly:
+    AssemblyDescription(
+        "Measuring operations of interest from event traces. Info at https://github.com/MatthewMWR/MeasureTrace")]
 [assembly: AssemblyCompany("Matthew Reynolds (@MatthewMWR) from Microsoft")]
 [assembly: AssemblyCopyright("Copyright © Microsoft 2015")]
-
 
 
 // Setting ComVisible to false makes the types in this assembly not visible 
@@ -34,6 +35,3 @@ using System.Runtime.InteropServices;
 // [assembly: AssemblyVersion("1.0.*")]
 
 [assembly: AssemblyVersion("1.0.*")]
-
-
-

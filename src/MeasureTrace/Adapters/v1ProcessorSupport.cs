@@ -21,9 +21,10 @@ namespace MeasureTrace.Adapters
         ///     on the TraceProcessJob
         ///     The instantiator remains reponsible for lifetime.
         ///     To avoid dispose responsibility use RegisterProcessorByType instead
+        ///     or pass true to traceJobResponsibleForLifetime
         /// </summary>
         public static ProcessorBase RegisterProcessorInstance(this TraceJob traceJob, ProcessorBase processor,
-            ProcessorTypeCollisionOption option)
+            ProcessorTypeCollisionOption option, bool traceJobResponsibleForLifetime = false)
         {
             if (processor.TraceJob == null) processor.TraceJob = traceJob;
             var processors = traceJob.V1ProcessorList;
@@ -45,6 +46,7 @@ namespace MeasureTrace.Adapters
                 remainingMatch != null)
                 return remainingMatch.Item2;
             processors.Add(new Tuple<Type, ProcessorBase>(processor.GetType(), processor));
+            if (traceJobResponsibleForLifetime) traceJob.V1ProcessorsInternallyOwned.Add(processor);
             processor.Initialize(traceJob);
             return processor;
         }
@@ -64,8 +66,7 @@ namespace MeasureTrace.Adapters
                 return existing;
             }
             var p = new TProcessor();
-            traceJob.V1ProcessorsInternallyOwned.Add(p);
-            return traceJob.RegisterProcessorInstance(p, option);
+            return traceJob.RegisterProcessorInstance(p, option, true);
         }
 
         public static IEnumerable<ProcessorBase> GetRegisteredProcessors(this TraceJob traceJob)

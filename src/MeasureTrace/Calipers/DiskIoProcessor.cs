@@ -31,6 +31,11 @@ namespace MeasureTrace.Calipers
 
         public override void Initialize(TraceJob traceJob)
         {
+            if (!WptInterop.IsXperfInstalled())
+            {
+                Logging.LogDebugMessage("xperf not found. skipping disk IO processing");
+                return;
+            }
             _diskIoTempFiles = WptInterop.RunXPerfAllProcessing(traceJob.EtwTraceEventSource.LogFileName);
             PreTraceEventProcessing += ProcessDiskIoLog;
         }

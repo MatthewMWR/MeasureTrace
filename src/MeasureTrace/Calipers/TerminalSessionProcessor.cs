@@ -17,8 +17,7 @@ namespace MeasureTrace.Calipers
     ///     Requires a trace to have Winlogon events and kernel process events
     ///     LocalSessionManager events add detail where available
     /// </summary>
-    public class TerminalSessionProcessor : ProcessorBase, IObserver<ProcessTraceData>, IObserver<TraceEvent>,
-        IObserver<IMeasurement>
+    public class TerminalSessionProcessor : ProcessorBase, IObserver<ProcessTraceData>, IObserver<TraceEvent>
     {
         private const string WinlogonProviderName = "Microsoft-Windows-Winlogon";
         private const string LsmProviderName = "Microsoft-Windows-TerminalServices-LocalSessionManager";
@@ -28,13 +27,13 @@ namespace MeasureTrace.Calipers
         private readonly List<int> _sessionsAlreadyRegistered = new List<int>();
         private readonly ICollection<TerminalSession> _sessionsPartial = new List<TerminalSession>();
 
-        public void OnNext(IMeasurement measurement)
-        {
-            if (measurement is GroupPolicyActivity)
-            {
-                TriageGroupPolicyActivity((GroupPolicyActivity) measurement);
-            }
-        }
+        //public void OnNext(IMeasurement measurement)
+        //{
+        //    if (measurement is GroupPolicyActivity)
+        //    {
+        //        TriageGroupPolicyActivity((GroupPolicyActivity) measurement);
+        //    }
+        //}
 
         public void OnNext(ProcessTraceData value)
         {
@@ -165,19 +164,19 @@ namespace MeasureTrace.Calipers
             }
         }
 
-        private void TriageGroupPolicyActivity(GroupPolicyActivity gpA)
-        {
-            //  TODO FUTURE
-            //  Rebuild this around broader group policy notification / hyper-activity measurement to get session awareness
-            //  The below will only work well for console logons
-            if (gpA.Trigger == PolicyApplicationTrigger.LogOn)
-            {
-                foreach (var session in _sessionsPartial.Where(s => s.SessionId == 1))
-                {
-                    session.SessionUserName = gpA.PrincipalName;
-                }
-            }
-        }
+        //private void TriageGroupPolicyActivity(GroupPolicyActivity gpA)
+        //{
+        //    //  TODO FUTURE
+        //    //  Rebuild this around broader group policy notification / hyper-activity measurement to get session awareness
+        //    //  The below will only work well for console logons
+        //    if (gpA.Trigger == PolicyApplicationTrigger.LogOn)
+        //    {
+        //        foreach (var session in _sessionsPartial.Where(s => s.SessionId == 1))
+        //        {
+        //            session.SessionUserName = gpA.PrincipalName;
+        //        }
+        //    }
+        //}
 
         private void RegisterFinishedSessions(bool includeIncompleteSessions = false)
         {

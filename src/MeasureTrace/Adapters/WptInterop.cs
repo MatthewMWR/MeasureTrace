@@ -93,6 +93,23 @@ namespace MeasureTrace.Adapters
             return foundVersionPath.Path;
         }
 
+        public static bool IsXperfInstalled()
+        {
+            var outPath = string.Empty;
+            try
+            {
+                outPath = FindXPerfPath();
+            }
+            catch (FileNotFoundException)
+            {
+            }
+            catch (InvalidOperationException)
+            {
+            }
+            if (!string.IsNullOrWhiteSpace(outPath) && File.Exists(outPath)) return true;
+            return false;
+        }
+
         private static string NewProcessingTempFileName(string etlPath, string token)
         {
             var fileInfo = new FileInfo(etlPath);

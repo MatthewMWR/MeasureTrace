@@ -4,6 +4,7 @@ using System;
 using System.IO;
 using System.Linq;
 using MeasureTrace;
+using MeasureTrace.Calipers;
 using Xunit;
 
 namespace MeasureTraceTests.Calipers
@@ -19,10 +20,12 @@ namespace MeasureTraceTests.Calipers
             File.Copy(sourcePath, destPath, true);
             using (var tj = new TraceJob(destPath))
             {
-                tj.RegisterCaliperByType<MeasureTrace.Calipers.CpuSampled>(null);
+                tj.RegisterCaliperByType<CpuSampled>(null);
                 var t = tj.Measure();
                 Assert.NotNull(t);
-                Assert.True(t.GetMeasurements<MeasureTrace.TraceModel.CpuSampled>().OrderBy(m => m.Weight).Last().ProcessName == "mscorsvw");
+                Assert.True(
+                    t.GetMeasurements<MeasureTrace.TraceModel.CpuSampled>().OrderBy(m => m.Weight).Last().ProcessName ==
+                    "mscorsvw");
                 Assert.True(
                     t.GetMeasurements<MeasureTrace.TraceModel.CpuSampled>()
                         .Where(q => q.ProcessName == "MonitoringHost" && q.Weight > 0.03)

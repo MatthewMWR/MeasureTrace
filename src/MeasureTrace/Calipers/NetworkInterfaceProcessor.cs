@@ -10,8 +10,6 @@ namespace MeasureTrace.Calipers
 {
     public class NetworkInterfaceProcessor : ProcessorBase, IObserver<SystemConfigNICTraceData>
     {
-        private readonly string[] _iPListSplitter = {";"};
-
         public void OnNext(SystemConfigNICTraceData sysConfigNic)
         {
             var newNic = new NetworkInterface();

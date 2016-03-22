@@ -1,15 +1,14 @@
 ﻿using System;
-using System.Linq;
-using Xunit;
 using System.IO;
+using System.Linq;
 using MeasureTrace;
 using MeasureTrace.Adapters;
+using Xunit;
 
 namespace MeasureTraceTests.Adapters
 {
     public class AdapterTests
     {
-
         [Theory]
         [InlineData(@"20160107-103455_CLINTH-SP3_UserInitiated.zip")]
         [InlineData(@"20160212-102918_WIN7-32_Clue_ProcessorTimeGt90.zip")]
@@ -22,23 +21,29 @@ namespace MeasureTraceTests.Adapters
                 traceJob.PopulateTraceCoreAttributes();
                 var trace = traceJob.Trace;
                 Assert.True(
-                    new[] { "CLINTH-SP3", "WIN7-32", "BX-WIN81" }.Contains(trace.ComputerName,
-                    StringComparer.OrdinalIgnoreCase)
+                    new[] {"CLINTH-SP3", "WIN7-32", "BX-WIN81"}.Contains(trace.ComputerName,
+                        StringComparer.OrdinalIgnoreCase)
                     );
-                Assert.True(trace.TracePackageTime.Year == 2016 );
-                if(packageFileName.Contains("UserInitiated"))
+                Assert.True(trace.TracePackageTime.Year == 2016);
+                if (packageFileName.Contains("UserInitiated"))
                 {
                     Assert.True(trace.TraceAttributes.Any(ta => ta.Name == CluePackageAdapter.NameOfIcuUserNoteAttribute));
                 }
                 if (!packageFileName.StartsWith("BxrR", StringComparison.OrdinalIgnoreCase))
                 {
-                    Assert.True(trace.TraceAttributes.Any(ta => ta.Name == CluePackageAdapter.NameOfIcuMetaEmailReportToAttribute));
+                    Assert.True(
+                        trace.TraceAttributes.Any(
+                            ta => ta.Name == CluePackageAdapter.NameOfIcuMetaEmailReportToAttribute));
                 }
                 if (packageFileName.StartsWith("BxrR", StringComparison.OrdinalIgnoreCase))
                 {
-                    Assert.True(trace.TraceAttributes.Any(ta => ta.Name == "OSInstallDateWMI" && ta.StringValue != null && ta.DateTimeValue != null));
+                    Assert.True(
+                        trace.TraceAttributes.Any(
+                            ta => ta.Name == "OSInstallDateWMI" && ta.StringValue != null && ta.DateTimeValue != null));
                 }
-                Assert.True( trace.TraceAttributes.Any(ta => string.Equals(ta.Name, "Trigger", StringComparison.OrdinalIgnoreCase)));
+                Assert.True(
+                    trace.TraceAttributes.Any(
+                        ta => string.Equals(ta.Name, "Trigger", StringComparison.OrdinalIgnoreCase)));
             }
         }
     }

@@ -34,7 +34,7 @@ namespace MeasureTraceTests
                     trace = tj.Measure();
                     Assert.NotNull(trace);
                 }
-                Assert.True(! Directory.Exists(pathToTest.Remove(pathToTest.Length - 4)));
+                Assert.True(!Directory.Exists(pathToTest.Remove(pathToTest.Length - 4)));
             }
             catch (Exception e)
             {
