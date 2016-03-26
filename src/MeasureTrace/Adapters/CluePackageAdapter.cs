@@ -13,7 +13,7 @@ namespace MeasureTrace.Adapters
     {
         public const string NameOfIcuMetaEmailReportToAttribute = "EmailReportTo";
         public const string NameOfIcuUserNoteAttribute = "UserInitiatedNote";
-        private const string NameOfIcuMetaFile = "ICU.xml";
+        private const string NameOfIcuMetaFile = "config.xml";
         private const string LabelOfNoEmailReportToAddress = "NoEmailReportToAddress";
         private const string NameOfIcuUserNoteFile = "UserNote.txt";
 

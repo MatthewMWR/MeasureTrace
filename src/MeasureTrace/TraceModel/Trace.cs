@@ -14,10 +14,8 @@ namespace MeasureTrace.TraceModel
 
         //public int Id { get; set; }
 
-        public string DataPathStable { get; set; }
-        public string DataFileNameRelative { get; set; }
-        public string DataPathDuringProcessing { get; set; }
-
+        public string PackageFileNameFull { get; set; }
+        public string PackageFileName { get; set; }
         public string ComputerName { get; set; }
         public DateTime TraceSessionStart { get; set; }
         public DateTime TraceDataStart { get; set; }

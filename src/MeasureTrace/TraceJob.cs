@@ -43,10 +43,10 @@ namespace MeasureTrace
         {
             if (sparseTrace == null) throw new ArgumentNullException(nameof(sparseTrace));
             Trace = sparseTrace;
-            if (string.IsNullOrWhiteSpace(sparseTrace.DataPathStable)) throw new FileNotFoundException();
+            if (string.IsNullOrWhiteSpace(sparseTrace.PackageFileNameFull)) throw new FileNotFoundException();
             MeasurementsInProgress = new ConcurrentBag<IMeasurement>();
             UserData = new ConcurrentDictionary<object, object>();
-            ResolveDataPaths(sparseTrace.DataPathStable);
+            ResolveDataPaths(sparseTrace.PackageFileNameFull);
             EtwTraceEventSource = new ETWTraceEventSource(_processingPath);
         }
 
@@ -87,7 +87,7 @@ namespace MeasureTrace
             IPackageAdapter adapter = null;
             if (_tracePackageType == TracePackageType.IcuZip) adapter = new CluePackageAdapter();
             else if (_tracePackageType == TracePackageType.BxrRZip) adapter = new BxrRPackageAdapter();
-            if (adapter != null) adapter.PopulateTraceAttributesFromFileName(Trace, Trace.DataFileNameRelative);
+            if (adapter != null) adapter.PopulateTraceAttributesFromFileName(Trace, Trace.PackageFileName);
             if (adapter != null) adapter.PopulateTraceAttributesFromPackageContents(Trace, _zipOutPath.FullName);
         }
 
@@ -185,9 +185,8 @@ namespace MeasureTrace
                     _tracePackageType = TracePackageType.IcuZip;
                 else _tracePackageType = TracePackageType.GenericZip;
             }
-            Trace.DataPathDuringProcessing = _processingPath;
-            Trace.DataPathStable = _stablePath;
-            Trace.DataFileNameRelative = Path.GetFileName(_stablePath);
+            Trace.PackageFileNameFull = _stablePath;
+            Trace.PackageFileName = Path.GetFileName(_stablePath);
         }
 
         public void OnNewMeasurementOfType<TMeasurement>(Action<TMeasurement> myDelegate)

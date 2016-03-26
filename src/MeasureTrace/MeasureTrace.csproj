@@ -60,7 +60,6 @@
   <ItemGroup>
     <Compile Include="Adapters\BxrRPackageAdapter.cs" />
     <Compile Include="Adapters\CluePackageAdapter.cs" />
-    <Compile Include="Adapters\IcuInterop.cs" />
     <Compile Include="Adapters\IPopulateCoreTraceAttributesFromPackage.cs" />
     <Compile Include="Adapters\IPackageAdapter.cs" />
     <Compile Include="Adapters\TracePackageType.cs" />
