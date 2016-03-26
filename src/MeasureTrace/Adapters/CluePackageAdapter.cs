@@ -14,6 +14,7 @@ namespace MeasureTrace.Adapters
         public const string NameOfIcuMetaEmailReportToAttribute = "EmailReportTo";
         public const string NameOfIcuUserNoteAttribute = "UserInitiatedNote";
         private const string NameOfIcuMetaFile = "config.xml";
+        private const string NameAlternateOfIcuMetaFile = "icu.xml";
         private const string LabelOfNoEmailReportToAddress = "NoEmailReportToAddress";
         private const string NameOfIcuUserNoteFile = "UserNote.txt";
 
@@ -63,6 +64,7 @@ namespace MeasureTrace.Adapters
         private IEnumerable<string> GetIcuEmailReportToAddresses(string pathToIcuDataFolder)
         {
             var pathToIcuMetaFile = Path.Combine(pathToIcuDataFolder, NameOfIcuMetaFile);
+            if (!File.Exists(pathToIcuMetaFile)) pathToIcuMetaFile = Path.Combine(pathToIcuDataFolder, NameAlternateOfIcuMetaFile);
             if (!File.Exists(pathToIcuMetaFile)) return new[] {string.Empty};
             var icuMeta = XElement.Load(pathToIcuMetaFile);
             var attributeValue = icuMeta.Attribute(XName.Get(NameOfIcuMetaEmailReportToAttribute, "")).Value;
