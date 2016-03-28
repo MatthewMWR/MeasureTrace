@@ -47,5 +47,6 @@ namespace MeasureTrace.TraceModel
         {
             return _measurements.GroupBy(m => m.GetType()).Select(g => g.Key);
         }
+
     }
 }

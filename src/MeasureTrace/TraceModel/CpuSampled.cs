@@ -21,6 +21,7 @@ namespace MeasureTrace.TraceModel
         {
             get
             {
+                if (CpuCoreCount < 1) return false;
                 var samplesPerCore = TotalSamplesDuringInterval/CpuCoreCount;
                 var threshold = samplesPerCore*0.95;
                 return Count > threshold;
