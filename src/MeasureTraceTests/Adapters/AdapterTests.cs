@@ -27,22 +27,22 @@ namespace MeasureTraceTests.Adapters
                 Assert.True(trace.TracePackageTime.Year == 2016);
                 if (packageFileName.Contains("UserInitiated"))
                 {
-                    Assert.True(trace.GetTraceAttributes.Any(ta => ta.Name == CluePackageAdapter.NameOfIcuUserNoteAttribute));
+                    Assert.True(trace.GetTraceAttributes().Any(ta => ta.Name == CluePackageAdapter.NameOfIcuUserNoteAttribute));
                 }
                 if (!packageFileName.StartsWith("BxrR", StringComparison.OrdinalIgnoreCase))
                 {
                     Assert.True(
-                        trace.GetTraceAttributes.Any(
+                        trace.GetTraceAttributes().Any(
                             ta => ta.Name == CluePackageAdapter.NameOfIcuMetaEmailReportToAttribute));
                 }
                 if (packageFileName.StartsWith("BxrR", StringComparison.OrdinalIgnoreCase))
                 {
                     Assert.True(
-                        trace.GetTraceAttributes.Any(
+                        trace.GetTraceAttributes().Any(
                             ta => ta.Name == "OSInstallDateWMI" && ta.StringValue != null && ta.DateTimeValue != null));
                 }
                 Assert.True(
-                    trace.GetTraceAttributes.Any(
+                    trace.GetTraceAttributes().Any(
                         ta => string.Equals(ta.Name, "Trigger", StringComparison.OrdinalIgnoreCase)));
             }
         }
