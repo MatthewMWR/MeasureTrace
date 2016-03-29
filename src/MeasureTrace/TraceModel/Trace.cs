@@ -10,7 +10,7 @@ namespace MeasureTrace.TraceModel
     public class Trace
     {
         private readonly ConcurrentBag<IMeasurement> _measurements = new ConcurrentBag<IMeasurement>();
-        public IEnumerable<TraceAttribute> TraceAttributes => _measurements.OfType<TraceAttribute>();
+        public IEnumerable<TraceAttribute> GetTraceAttributes() => _measurements.OfType<TraceAttribute>();
 
         //public int Id { get; set; }
 
