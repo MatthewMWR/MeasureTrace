@@ -46,7 +46,7 @@ namespace MeasureTrace
             if (string.IsNullOrWhiteSpace(sparseTrace.PackageFileNameFull)) throw new FileNotFoundException();
             MeasurementsInProgress = new ConcurrentBag<IMeasurement>();
             UserData = new ConcurrentDictionary<object, object>();
-            EtwTraceEventSource = new ETWTraceEventSource(_processingPath);
+            _callerSuppliedPath = sparseTrace.PackageFileNameFull;
         }
 
         public Trace Trace { get; }
