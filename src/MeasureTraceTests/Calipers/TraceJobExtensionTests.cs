@@ -21,6 +21,7 @@ namespace MeasureTraceTests.Calipers
             using (var tj = new TraceJob(destPath))
             {
                 //tj.RegisterProcessorByType<BootPhaseProcessor>(ProcessorTypeCollisionOption.UseExistingIfFound);
+                tj.StageForProcessing();
                 tj.RegisterCalipersAllKnown();
                 var t = tj.Measure();
                 Assert.NotNull(t);

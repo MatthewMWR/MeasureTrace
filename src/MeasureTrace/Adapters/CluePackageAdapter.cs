@@ -23,8 +23,9 @@ namespace MeasureTrace.Adapters
 
         public const string IcuDateTimeStringFormat = @"yyyyMMdd-HHmmss";
 
-        public void PopulateTraceAttributesFromFileName(Trace trace, string fileNameRelative)
+        public void PopulateTraceAttributesFromFileName(Trace trace, string filePath)
         {
+            var fileNameRelative = Path.GetFileName(filePath);
             if (string.IsNullOrEmpty(fileNameRelative)) throw new ArgumentNullException(nameof(fileNameRelative));
             var match = Regex.Match(fileNameRelative, IcuFileNamePattern, RegexOptions.IgnoreCase);
             if (match.Success)

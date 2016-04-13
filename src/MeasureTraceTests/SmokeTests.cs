@@ -58,6 +58,7 @@ namespace MeasureTraceTests
             File.Copy(sourcePath, destPath, true);
             using (var tj = new TraceJob(destPath))
             {
+                tj.StageForProcessing();
                 tj.RegisterCaliperByType<CpuSampled>(null);
                 tj.RegisterCaliperByType<BootPhase>();
                 tj.RegisterProcessorByType<WinlogonSubscriberProcessor>(ProcessorTypeCollisionOption.UseExistingIfFound);

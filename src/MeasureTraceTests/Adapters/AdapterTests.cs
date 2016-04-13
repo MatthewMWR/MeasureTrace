@@ -18,7 +18,7 @@ namespace MeasureTraceTests.Adapters
             var packagePath = Path.Combine(Environment.CurrentDirectory, "TestData", packageFileName);
             using (var traceJob = new TraceJob(packagePath))
             {
-                traceJob.PopulateTraceCoreAttributes();
+                traceJob.StageForProcessing();
                 var trace = traceJob.Trace;
                 Assert.True(
                     new[] {"CLINTH-SP3", "WIN7-32", "BX-WIN81"}.Contains(trace.ComputerName,

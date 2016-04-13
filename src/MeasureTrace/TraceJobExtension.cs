@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Text.RegularExpressions;
 using MeasureTrace.Adapters;
 using MeasureTrace.CalipersModel;
 
@@ -59,6 +60,34 @@ namespace MeasureTrace
                 }
             }
             return types.AsEnumerable();
+        }
+
+        public static TracePackageType ResolvePackageType(string filePathFull)
+        {
+            var fileInfo = new FileInfo(filePathFull);
+            if (string.Equals(fileInfo.Extension, ".etl", StringComparison.OrdinalIgnoreCase))
+            {
+                return TracePackageType.GenericEtl;
+            }
+            else if (string.Equals(fileInfo.Extension, ".zip", StringComparison.OrdinalIgnoreCase))
+            {
+                if (Regex.IsMatch(fileInfo.Name, BxrRPackageAdapter.BxrRFileNamePattern, RegexOptions.IgnoreCase))
+                    return TracePackageType.BxrRZip;
+                else if (Regex.IsMatch(fileInfo.Name, CluePackageAdapter.IcuFileNamePattern, RegexOptions.IgnoreCase))
+                    return TracePackageType.IcuZip;
+                else return TracePackageType.GenericZip;
+            }
+            else
+            {
+                throw new InvalidOperationException("Expected .etl or .zip file");
+            }
+        }
+
+        public static IPackageAdapter GetPackageAdapter(TracePackageType packageType)
+        {
+            if(packageType == TracePackageType.BxrRZip) return new BxrRPackageAdapter();
+            if (packageType == TracePackageType.IcuZip) return new CluePackageAdapter();
+            return new GeneralPackageAdapter();
         }
     }
 }

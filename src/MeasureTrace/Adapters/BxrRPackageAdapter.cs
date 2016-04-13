@@ -18,8 +18,9 @@ namespace MeasureTrace.Adapters
         private const string BxrRSupplementalDataFileNamePattern = "BxrR*__SupplementalComputerInfo.xml";
         private const string BxrRKeyValuePattern = @"<S\sN\=""(\w+)"">([^<]+)</S>";
 
-        public void PopulateTraceAttributesFromFileName(Trace trace, string fileNameRelative)
+        public void PopulateTraceAttributesFromFileName(Trace trace, string filePath)
         {
+            var fileNameRelative = Path.GetFileName(filePath);
             if (string.IsNullOrWhiteSpace(fileNameRelative)) throw new ArgumentNullException(nameof(fileNameRelative));
             var match = Regex.Match(fileNameRelative, BxrRFileNamePattern, RegexOptions.IgnoreCase);
             if (match.Success)

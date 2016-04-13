@@ -20,9 +20,9 @@ namespace MeasureTrace
         private readonly IList<ICaliper> _calipers = new List<ICaliper>();
         private int _deleteZipOutPathCurrentTry = 1;
         private readonly int _deleteZipOutPathMaxTry = 3;
-        private int _populateTraceCoreAttributesCallCount;
         private string _processingPath;
         private string _stablePath;
+        private string _callerSuppliedPath;
         private TracePackageType _tracePackageType;
         private DirectoryInfo _zipOutPath;
         public Action<IMeasurement> OnNewMeasurementAny;
@@ -34,8 +34,8 @@ namespace MeasureTrace
             Trace = new Trace();
             MeasurementsInProgress = new ConcurrentBag<IMeasurement>();
             UserData = new ConcurrentDictionary<object, object>();
-            ResolveDataPaths(etlPath);
-            EtwTraceEventSource = new ETWTraceEventSource(_processingPath);
+            _callerSuppliedPath = etlPath;
+
         }
 
         [UsedImplicitly]
@@ -46,7 +46,6 @@ namespace MeasureTrace
             if (string.IsNullOrWhiteSpace(sparseTrace.PackageFileNameFull)) throw new FileNotFoundException();
             MeasurementsInProgress = new ConcurrentBag<IMeasurement>();
             UserData = new ConcurrentDictionary<object, object>();
-            ResolveDataPaths(sparseTrace.PackageFileNameFull);
             EtwTraceEventSource = new ETWTraceEventSource(_processingPath);
         }
 
@@ -80,21 +79,10 @@ namespace MeasureTrace
                 Logging.LogDebugMessage($"Temp dir could not be deleted automatically {_zipOutPath.FullName}");
         }
 
-        public void PopulateTraceCoreAttributes()
-        {
-            _populateTraceCoreAttributesCallCount++;
-            Trace.TraceSessionStart = EtwTraceEventSource.SessionStartTime;
-            IPackageAdapter adapter = null;
-            if (_tracePackageType == TracePackageType.IcuZip) adapter = new CluePackageAdapter();
-            else if (_tracePackageType == TracePackageType.BxrRZip) adapter = new BxrRPackageAdapter();
-            if (adapter != null) adapter.PopulateTraceAttributesFromFileName(Trace, Trace.PackageFileName);
-            if (adapter != null) adapter.PopulateTraceAttributesFromPackageContents(Trace, _zipOutPath.FullName);
-        }
-
         public Trace Measure()
         {
-            if (_populateTraceCoreAttributesCallCount == 0) PopulateTraceCoreAttributes();
-
+            if(EtwTraceEventSource == null) StageForProcessing();
+            if (EtwTraceEventSource == null) throw new InvalidOperationException("Event source is null");
             OnNewMeasurementAny += m => Trace.AddMeasurement(m);
             foreach (var c in _calipers)
             {
@@ -156,37 +144,36 @@ namespace MeasureTrace
             }
         }
 
-        private void ResolveDataPaths([NotNull] string etlPath)
+        public void StageForProcessing()
         {
+            var etlPath = _callerSuppliedPath;
             //  If the path does not exist or is blank, etc. IO exceptions will be thrown
             if (string.IsNullOrWhiteSpace(etlPath)) throw new ArgumentNullException(nameof(etlPath));
             var fileInfo = new FileInfo(etlPath);
             if (fileInfo == null) throw new FileNotFoundException(etlPath);
             if (!fileInfo.Exists) throw new FileNotFoundException(etlPath);
-            if (string.Equals(fileInfo.Extension, ".etl", StringComparison.OrdinalIgnoreCase))
+            _tracePackageType = TraceJobExtension.ResolvePackageType(etlPath);
+            var adapter = TraceJobExtension.GetPackageAdapter(_tracePackageType);
+            adapter.PopulateTraceAttributesFromFileName(Trace, etlPath);
+            if (_tracePackageType == TracePackageType.GenericEtl)
             {
                 _stablePath = fileInfo.FullName;
                 _processingPath = fileInfo.FullName;
-                _tracePackageType = TracePackageType.GenericEtl;
             }
-            else if (string.Equals(fileInfo.Extension, ".zip", StringComparison.OrdinalIgnoreCase))
+            if (_tracePackageType == TracePackageType.BxrRZip || _tracePackageType == TracePackageType.GenericZip ||
+                _tracePackageType == TracePackageType.IcuZip)
             {
                 var zipPath = fileInfo.FullName;
                 _zipOutPath = Zip.UnzipPackage(zipPath);
                 var tempEtlFileInfos = _zipOutPath.EnumerateFiles("*.etl");
-
                 var firstEtl = tempEtlFileInfos.FirstOrDefault();
                 if (firstEtl == null) throw new FileNotFoundException(_zipOutPath.FullName);
                 _stablePath = zipPath;
                 _processingPath = firstEtl.FullName;
-                if (Regex.IsMatch(fileInfo.Name, BxrRPackageAdapter.BxrRFileNamePattern, RegexOptions.IgnoreCase))
-                    _tracePackageType = TracePackageType.BxrRZip;
-                else if (Regex.IsMatch(fileInfo.Name, CluePackageAdapter.IcuFileNamePattern, RegexOptions.IgnoreCase))
-                    _tracePackageType = TracePackageType.IcuZip;
-                else _tracePackageType = TracePackageType.GenericZip;
             }
-            Trace.PackageFileNameFull = _stablePath;
-            Trace.PackageFileName = Path.GetFileName(_stablePath);
+            EtwTraceEventSource = new ETWTraceEventSource(_processingPath);
+            if(_zipOutPath != null) adapter.PopulateTraceAttributesFromPackageContents(Trace, _zipOutPath.FullName);
+            Trace.TraceSessionStart = EtwTraceEventSource.SessionStartTime;
         }
 
         public void OnNewMeasurementOfType<TMeasurement>(Action<TMeasurement> myDelegate)

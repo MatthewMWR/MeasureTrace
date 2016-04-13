@@ -21,6 +21,7 @@ namespace MeasureTraceTests.Calipers
             File.Copy(sourcePath, destPath, true);
             using (var tj = new TraceJob(destPath))
             {
+                tj.StageForProcessing();
                 tj.RegisterProcessorByType<GroupPolicyActionProcessor>(ProcessorTypeCollisionOption.UseExistingIfFound);
                 var t = tj.Measure();
                 Assert.NotNull(t);
