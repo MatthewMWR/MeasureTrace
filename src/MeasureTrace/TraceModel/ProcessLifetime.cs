@@ -6,10 +6,8 @@ namespace MeasureTrace.TraceModel
     {
         public int Id { get; set; }
         public int MeasuredTraceId { get; set; }
-
         public string ImageName { get; set; }
         public int SessionId { get; set; }
         public Trace Trace { get; set; }
-        //public int TraceId { get; set; }
     }
 }

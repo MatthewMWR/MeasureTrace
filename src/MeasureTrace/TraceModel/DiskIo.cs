@@ -90,7 +90,6 @@ namespace MeasureTrace.TraceModel
 #pragma warning restore 169
 
         public Trace Trace { get; set; }
-        //public int TraceId { get; set; }
 
         public MeasurementQuality MeasurementQuality => MeasurementQuality.DefaultUsable;
 

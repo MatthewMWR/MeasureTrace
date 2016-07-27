@@ -31,7 +31,6 @@ namespace MeasureTrace.TraceModel
         }
 
         public int Id { get; set; }
-        //public int MeasuredTraceId { get; set; }
         public WinlogonNotificationType WinlogonNotificationType { get; set; }
         public GroupPolicyActionType ActionType { get; set; }
         public string ScriptName { get; set; }
@@ -60,7 +59,6 @@ namespace MeasureTrace.TraceModel
 #pragma warning restore 169
 
         public int ForSessionId { get; set; }
-        //public virtual WinlogonSubscriberTask WinlogonSubscriberTask { get; set; }
 
         public Guid ActivityId { get; set; }
         public PolicyApplicationMode Mode { get; set; }
@@ -81,28 +79,7 @@ namespace MeasureTrace.TraceModel
 
         public ReasonForSync ReasonForSync { get; set; }
 
-        //public string ReasonForSyncLabel
-        //{
-        //    get { return Enum.GetName(typeof (ReasonForSync), ReasonForSync); }
-        //}
-
-        //public string ScopeLabel
-        //{
-        //    get { return Enum.GetName(typeof (GpoScope), Scope); }
-        //}
-
-        //public string TriggerLabel
-        //{
-        //    get { return Enum.GetName(typeof (PolicyApplicationTrigger), Trigger); }
-        //}
-
-        //public string ModeLabel
-        //{
-        //    get { return Enum.GetName(typeof (PolicyApplicationMode), Mode); }
-        //}
-
         public Trace Trace { get; set; }
-        //public int TraceId { get; set; }
     }
 
     public enum GroupPolicyActionType
