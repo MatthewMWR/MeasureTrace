@@ -26,26 +26,26 @@ namespace MeasureTrace.TraceModel
 
         public ServiceExecutionPhase ExecutionPhase { get; set; }
 
-        public string ExcutionPhaseLabel
-        {
-            get { return Enum.GetName(typeof (ServiceExecutionPhase), ExecutionPhase); }
-        }
+        //public string ExcutionPhaseLabel
+        //{
+        //    get { return Enum.GetName(typeof (ServiceExecutionPhase), ExecutionPhase); }
+        //}
 
         public string ServiceProcessName { get; set; }
         public ServiceStartupType ConfiguredStartType { get; set; }
 
-        public string ConfiguredStartTypeLabel
-        {
-            get { return Enum.GetName(typeof (ServiceStartupType), ConfiguredStartType); }
-        }
+        //public string ConfiguredStartTypeLabel
+        //{
+        //    get { return Enum.GetName(typeof (ServiceStartupType), ConfiguredStartType); }
+        //}
 
         public bool? HasTriggers { get; set; }
         public ServiceTransitionTypeEx ServiceTransitionType { get; set; }
 
-        public string ServiceTransitionTypeLabel
-        {
-            get { return Enum.GetName(typeof (ServiceTransitionTypeEx), ServiceTransitionType); }
-        }
+        //public string ServiceTransitionTypeLabel
+        //{
+        //    get { return Enum.GetName(typeof (ServiceTransitionTypeEx), ServiceTransitionType); }
+        //}
 
         public bool IsAutoStartPhase { get; set; }
         public string LoadOrderGroup { get; set; }

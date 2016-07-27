@@ -15,7 +15,6 @@ namespace MeasureTrace.Calipers
         private readonly List<TraceModel.CpuSampled> _rawMeasurementsForCurrentTimeSlice =
             new List<TraceModel.CpuSampled>();
 
-
         private int _cpuCoreCount;
         private int _currentIntervalIndex;
         private double _nextTimeSliceStartOffsetMSec;

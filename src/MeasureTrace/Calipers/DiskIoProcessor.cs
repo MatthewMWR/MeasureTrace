@@ -16,7 +16,7 @@ namespace MeasureTrace.Calipers
         private readonly Dictionary<string, DiskIo> _aProcessAndFile =
             new Dictionary<string, DiskIo>(StringComparer.OrdinalIgnoreCase);
 
-        private Dictionary<string, string> _diskIoTempFiles;
+        private Dictionary<string, string> _diskIoTempFiles = new Dictionary<string, string>();
 
         public DiskIoProcessor()
         {

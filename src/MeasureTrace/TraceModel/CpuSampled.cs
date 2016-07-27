@@ -43,5 +43,9 @@ namespace MeasureTrace.TraceModel
         {
             return isDpc ? "DPC" : isIsr ? "ISR" : $"{processName}";
         }
+
+#pragma warning disable 169
+        private string _bogusFieldForEfCompat;
+#pragma warning restore 169
     }
 }

@@ -11,11 +11,11 @@ namespace MeasureTrace.TraceModel
 
         public BootPhaseObserver BootPhaseObserver { get; set; }
 
-        public string BootPhaseObserverLabel => Enum.GetName(typeof (BootPhaseObserver), BootPhaseObserver);
+        //public string BootPhaseObserverLabel => Enum.GetName(typeof (BootPhaseObserver), BootPhaseObserver);
 
         public BootPhaseType BootPhaseType { get; set; }
 
-        public string BootPhaseTypeLabel => Enum.GetName(typeof (BootPhaseType), BootPhaseType);
+        //public string BootPhaseTypeLabel => Enum.GetName(typeof (BootPhaseType), BootPhaseType);
         public Trace Trace { get; set; }
         //public int TraceId { get; set; }
 

@@ -73,28 +73,32 @@ namespace MeasureTrace.TraceModel
 
         public ReasonForSync ReasonForSync { get; set; }
 
-        public string ReasonForSyncLabel
-        {
-            get { return Enum.GetName(typeof (ReasonForSync), ReasonForSync); }
-        }
+        //public string ReasonForSyncLabel
+        //{
+        //    get { return Enum.GetName(typeof (ReasonForSync), ReasonForSync); }
+        //}
 
-        public string ScopeLabel
-        {
-            get { return Enum.GetName(typeof (GpoScope), Scope); }
-        }
+        //public string ScopeLabel
+        //{
+        //    get { return Enum.GetName(typeof (GpoScope), Scope); }
+        //}
 
-        public string TriggerLabel
-        {
-            get { return Enum.GetName(typeof (PolicyApplicationTrigger), Trigger); }
-        }
+        //public string TriggerLabel
+        //{
+        //    get { return Enum.GetName(typeof (PolicyApplicationTrigger), Trigger); }
+        //}
 
-        public string ModeLabel
-        {
-            get { return Enum.GetName(typeof (PolicyApplicationMode), Mode); }
-        }
+        //public string ModeLabel
+        //{
+        //    get { return Enum.GetName(typeof (PolicyApplicationMode), Mode); }
+        //}
 
         public Trace Trace { get; set; }
         //public int TraceId { get; set; }
+
+#pragma warning disable 169
+        private string _bogusFieldForEfCompat;
+#pragma warning restore 169
     }
 
     public enum GroupPolicyActionType

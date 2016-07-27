@@ -9,7 +9,7 @@ namespace MeasureTrace.TraceModel
         public string IpAddressesFlat { get; set; }
         public string DnsServersFlat { get; set; }
         public string DefaultGateway { get; set; }
-        public string SubnetLabel { get; set; }
+        public string SubnetId { get; set; }
         public string Description { get; set; }
         public Trace Trace { get; set; }
         //public int TraceId { get; set; }

@@ -66,7 +66,6 @@
     <Compile Include="Adapters\v1ProcessorSupport.cs" />
     <Compile Include="Adapters\WptInterop.cs" />
     <Compile Include="Adapters\Zip.cs" />
-    <Compile Include="CalipersModel\Caliper.cs" />
     <Compile Include="CalipersModel\ICaliper.cs" />
     <Compile Include="CalipersModel\ProcessorBase.cs" />
     <Compile Include="CalipersModel\ProcessorObservableBase.cs" />
@@ -101,7 +100,6 @@
     <Compile Include="TraceModel\GpPolicyApplicationMode.cs" />
     <Compile Include="TraceModel\GpScope.cs" />
     <Compile Include="TraceModel\GroupPolicyAction.cs" />
-    <Compile Include="TraceModel\GroupPolicyActivity.cs" />
     <Compile Include="TraceModel\IMeasurement.cs" />
     <Compile Include="Calipers\MeasurementExtensions.cs" />
     <Compile Include="TraceModel\LogicalDisk.cs" />
@@ -124,7 +122,16 @@
     <Compile Include="TraceModel\WinlogonSubscriberTask.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="MakeMeasureTraceModuleFromBuildDir.ps1">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="MeasureTrace-profileA.wpaProfile">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="MeasureTrace.psd1">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="MeasureTrace.psm1">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="packages.config" />

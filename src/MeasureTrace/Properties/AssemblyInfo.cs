@@ -9,8 +9,8 @@ using System.Runtime.InteropServices;
 [assembly:
     AssemblyDescription(
         "Measuring operations of interest from event traces. Info at https://github.com/MatthewMWR/MeasureTrace")]
-[assembly: AssemblyCompany("Matthew Reynolds (@MatthewMWR) from Microsoft")]
-[assembly: AssemblyCopyright("Copyright © Microsoft 2015")]
+[assembly: AssemblyCompany("Sample code from mreyn@microsoft.com")]
+[assembly: AssemblyCopyright("Copyright © 2016 Matthew Reynolds / Microsoft")]
 
 
 // Setting ComVisible to false makes the types in this assembly not visible 

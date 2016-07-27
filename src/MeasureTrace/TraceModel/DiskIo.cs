@@ -74,5 +74,9 @@ namespace MeasureTrace.TraceModel
         {
             return MemberwiseClone();
         }
+
+#pragma warning disable 169
+        private string _bogusFieldForEfCompat;
+#pragma warning restore 169
     }
 }

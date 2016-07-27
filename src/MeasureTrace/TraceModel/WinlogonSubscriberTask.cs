@@ -36,10 +36,10 @@ namespace MeasureTrace.TraceModel
         public int? ProcessId { get; set; }
         public WinlogonNotificationType NotificationType { get; set; }
 
-        public string NotificationTypeLabel
-        {
-            get { return Enum.GetName(typeof (WinlogonNotificationType), NotificationType); }
-        }
+        //public string NotificationTypeLabel
+        //{
+        //    get { return Enum.GetName(typeof (WinlogonNotificationType), NotificationType); }
+        //}
 
         //  TODO FUTURE
         //  Currently each measurement class has to implement MeasurementQuality, even when it is just a pass through as it is here.
