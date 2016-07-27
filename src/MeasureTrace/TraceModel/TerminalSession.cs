@@ -26,6 +26,10 @@ namespace MeasureTrace.TraceModel
                 return initialValue > 0 ? initialValue : -1;
             }
         }
+#pragma warning disable 169
+        // dummy "Backing field" for EF compat with no-setter properties
+        private double _logonCredentialEntryToShellReady;
+#pragma warning restore 169
 
         public Trace Trace { get; set; }
         //public int TraceId { get; set; }
@@ -39,5 +43,9 @@ namespace MeasureTrace.TraceModel
                 return base.MeasurementQuality;
             }
         }
+#pragma warning disable 169
+        // dummy "Backing field" for EF compat with no-setter properties
+        private double _measurementQuality;
+#pragma warning restore 169
     }
 }

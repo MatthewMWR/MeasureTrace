@@ -23,7 +23,10 @@ namespace MeasureTrace.TraceModel
         {
             get { return Volumes.Count(v => v.ThisLogicalDiskContainsWinDir) > 0; }
         }
-
+#pragma warning disable 169
+        // dummy "backing field" for compat with EF7
+        private bool _containsWinDir;
+#pragma warning restore 169
         public Trace Trace { get; set; }
         //public int TraceId { get; set; }
         public MeasurementQuality MeasurementQuality => MeasurementQuality.DefaultUsable;

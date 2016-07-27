@@ -54,6 +54,10 @@ namespace MeasureTrace.TraceModel
                     Enum.GetName(typeof (GroupPolicyActionType), ActionType));
             }
         }
+#pragma warning disable 169
+        // dummy "backing field" for compat with EF7
+        private string _actionLabel;
+#pragma warning restore 169
 
         public int ForSessionId { get; set; }
         //public virtual WinlogonSubscriberTask WinlogonSubscriberTask { get; set; }
@@ -70,6 +74,10 @@ namespace MeasureTrace.TraceModel
         {
             get { return CseGuid == null ? null : GroupPolicyDomainKnowledge.GetCseLabelInvariant(CseGuid.Value); }
         }
+#pragma warning disable 169
+        // dummy "backing field" for compat with EF7
+        private string _cseLabel;
+#pragma warning restore 169
 
         public ReasonForSync ReasonForSync { get; set; }
 
@@ -95,10 +103,6 @@ namespace MeasureTrace.TraceModel
 
         public Trace Trace { get; set; }
         //public int TraceId { get; set; }
-
-#pragma warning disable 169
-        private string _bogusFieldForEfCompat;
-#pragma warning restore 169
     }
 
     public enum GroupPolicyActionType

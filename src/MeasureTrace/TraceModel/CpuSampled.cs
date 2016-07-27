@@ -8,13 +8,25 @@ namespace MeasureTrace.TraceModel
         public int Count { get; set; }
         public int TotalSamplesDuringInterval { get; set; }
         public double Weight => (double) Count/(double) TotalSamplesDuringInterval;
+#pragma warning disable 169
+        // dummy "backing field" for compat with EF7
+        private double _weight;
+#pragma warning restore 169
         public int ProcessId { get; set; }
         public string ProcessName { get; set; }
         public int ThreadId { get; set; }
         public bool IsDpc { get; set; }
         public bool IsIsr { get; set; }
         public string Source => CalculateSource(IsDpc, IsIsr, ProcessName, ProcessId);
+#pragma warning disable 169
+        // dummy "backing field" for compat with EF7
+        private string _source;
+#pragma warning restore 169
         public string SourceName => CalculateSource(IsDpc, IsIsr, ProcessName);
+#pragma warning disable 169
+        // dummy "backing field" for compat with EF7
+        private string _sourceName;
+#pragma warning restore 169
         public int CpuCoreCount { get; set; }
 
         public bool IsComsumingAtLeastOneCore
@@ -27,6 +39,11 @@ namespace MeasureTrace.TraceModel
                 return Count > threshold;
             }
         }
+
+#pragma warning disable 169
+        // dummy "backing field" for compat with EF7
+        private bool _isConsumingAtLeastOneCore;
+#pragma warning restore 169
 
         public int TimeSliceIndex { get; set; }
         public int TimeSliceLengthMSec { get; set; }
@@ -43,9 +60,5 @@ namespace MeasureTrace.TraceModel
         {
             return isDpc ? "DPC" : isIsr ? "ISR" : $"{processName}";
         }
-
-#pragma warning disable 169
-        private string _bogusFieldForEfCompat;
-#pragma warning restore 169
     }
 }

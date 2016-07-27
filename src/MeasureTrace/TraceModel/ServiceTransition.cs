@@ -23,6 +23,10 @@ namespace MeasureTrace.TraceModel
                 return ServiceName;
             }
         }
+#pragma warning disable 169
+        // dummy "Backing field" for EF compat with no-setter properties
+        private double _serviceNameSummary;
+#pragma warning restore 169
 
         public ServiceExecutionPhase ExecutionPhase { get; set; }
 

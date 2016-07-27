@@ -25,6 +25,10 @@ namespace MeasureTrace.TraceModel
                            StringComparison.OrdinalIgnoreCase);
             }
         }
+#pragma warning disable 169
+        // dummy "backing field" for compat with EF7
+        private bool _thisLogicalDiskContainsWinDir;
+#pragma warning restore 169
 
         public string SystemWideWinDirPath { get; set; }
         public string SystemWideWinDirSystem32Path { get; set; }
