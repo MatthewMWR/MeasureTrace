@@ -6,6 +6,30 @@ namespace MeasureTrace.TraceModel
 {
     public class DiskIo : IMeasurement
     {
+#pragma warning disable 169
+        // dummy "backing field" for compat with EF7
+        private int _diskSvcTimeMSec;
+#pragma warning restore 169
+#pragma warning disable 169
+        // dummy "backing field" for compat with EF7
+        private int _diskSvcTimeSecRounded;
+#pragma warning restore 169
+#pragma warning disable 169
+        // dummy "backing field" for compat with EF7
+        private int _ioTimeMSecRounded;
+#pragma warning restore 169
+#pragma warning disable 169
+        // dummy "backing field" for compat with EF7
+        private int _ioTimeSecRounded;
+#pragma warning restore 169
+#pragma warning disable 169
+        // dummy "backing field" for compat with EF7
+        private int _mBytes;
+#pragma warning restore 169
+#pragma warning disable 169
+        // dummy "backing field" for compat with EF7
+        private string _processAndPathSummaryKey;
+#pragma warning restore 169
         public int Id { get; set; }
         public int MeasuredTraceId { get; set; }
 
@@ -13,19 +37,11 @@ namespace MeasureTrace.TraceModel
         {
             get { return Convert.ToInt32(Math.Round((double) IoTimeUSec/1000, 0)); }
         }
-#pragma warning disable 169
-        // dummy "backing field" for compat with EF7
-        private int _ioTimeMSecRounded;
-#pragma warning restore 169
 
         public int DiskSvcTimeMSec
         {
             get { return Convert.ToInt32(Math.Round((double) DiskSvcTimeUSec/1000, 0)); }
         }
-#pragma warning disable 169
-        // dummy "backing field" for compat with EF7
-        private int _diskSvcTimeMSec;
-#pragma warning restore 169
 
         public int IoTimeSecRounded
         {
@@ -35,10 +51,6 @@ namespace MeasureTrace.TraceModel
                 return Convert.ToInt32(Math.Round(rawSeconds, 0));
             }
         }
-#pragma warning disable 169
-        // dummy "backing field" for compat with EF7
-        private int _ioTimeSecRounded;
-#pragma warning restore 169
 
         public int DiskSvcTimeSecRounded
         {
@@ -48,10 +60,6 @@ namespace MeasureTrace.TraceModel
                 return Convert.ToInt32(Math.Round(rawSeconds, 0));
             }
         }
-#pragma warning disable 169
-        // dummy "backing field" for compat with EF7
-        private int _diskSvcTimeSecRounded;
-#pragma warning restore 169
 
         public bool IsAggregate { get; set; }
         public int IoTimeUSec { get; set; }
@@ -70,10 +78,6 @@ namespace MeasureTrace.TraceModel
                 return string1.Length < maxLength ? string1 : string1.Substring(0, maxLength);
             }
         }
-#pragma warning disable 169
-        // dummy "backing field" for compat with EF7
-        private string _processAndPathSummaryKey;
-#pragma warning restore 169
 
         public int Count { get; set; }
         public int Bytes { get; set; }
@@ -84,10 +88,6 @@ namespace MeasureTrace.TraceModel
             // ReSharper disable once PossibleLossOfFraction
             get { return Bytes/1024/1024; }
         }
-#pragma warning disable 169
-        // dummy "backing field" for compat with EF7
-        private int _mBytes;
-#pragma warning restore 169
 
         public Trace Trace { get; set; }
 

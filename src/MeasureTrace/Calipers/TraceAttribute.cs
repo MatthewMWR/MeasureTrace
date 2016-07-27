@@ -1,4 +1,5 @@
 ﻿using System;
+using JetBrains.Annotations;
 using MeasureTrace.CalipersModel;
 
 namespace MeasureTrace.Calipers
@@ -48,6 +49,7 @@ namespace MeasureTrace.Calipers
                 );
         }
 
+        [UsedImplicitly]
         private static void PublishSysConfigAttribute(TraceJob traceJob, string propertyName, double doubleValue)
         {
             traceJob.PublishMeasurement(

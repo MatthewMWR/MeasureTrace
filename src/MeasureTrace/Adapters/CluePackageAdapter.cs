@@ -65,7 +65,8 @@ namespace MeasureTrace.Adapters
         private IEnumerable<string> GetIcuEmailReportToAddresses(string pathToIcuDataFolder)
         {
             var pathToIcuMetaFile = Path.Combine(pathToIcuDataFolder, NameOfIcuMetaFile);
-            if (!File.Exists(pathToIcuMetaFile)) pathToIcuMetaFile = Path.Combine(pathToIcuDataFolder, NameAlternateOfIcuMetaFile);
+            if (!File.Exists(pathToIcuMetaFile))
+                pathToIcuMetaFile = Path.Combine(pathToIcuDataFolder, NameAlternateOfIcuMetaFile);
             if (!File.Exists(pathToIcuMetaFile)) return new[] {string.Empty};
             var icuMeta = XElement.Load(pathToIcuMetaFile);
             var attributeValue = icuMeta.Attribute(XName.Get(NameOfIcuMetaEmailReportToAttribute, "")).Value;

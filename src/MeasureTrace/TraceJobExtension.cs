@@ -69,23 +69,20 @@ namespace MeasureTrace
             {
                 return TracePackageType.GenericEtl;
             }
-            else if (string.Equals(fileInfo.Extension, ".zip", StringComparison.OrdinalIgnoreCase))
+            if (string.Equals(fileInfo.Extension, ".zip", StringComparison.OrdinalIgnoreCase))
             {
                 if (Regex.IsMatch(fileInfo.Name, BxrRPackageAdapter.BxrRFileNamePattern, RegexOptions.IgnoreCase))
                     return TracePackageType.BxrRZip;
-                else if (Regex.IsMatch(fileInfo.Name, CluePackageAdapter.IcuFileNamePattern, RegexOptions.IgnoreCase))
+                if (Regex.IsMatch(fileInfo.Name, CluePackageAdapter.IcuFileNamePattern, RegexOptions.IgnoreCase))
                     return TracePackageType.IcuZip;
-                else return TracePackageType.GenericZip;
+                return TracePackageType.GenericZip;
             }
-            else
-            {
-                throw new InvalidOperationException("Expected .etl or .zip file");
-            }
+            throw new InvalidOperationException("Expected .etl or .zip file");
         }
 
         public static IPackageAdapter GetPackageAdapter(TracePackageType packageType)
         {
-            if(packageType == TracePackageType.BxrRZip) return new BxrRPackageAdapter();
+            if (packageType == TracePackageType.BxrRZip) return new BxrRPackageAdapter();
             if (packageType == TracePackageType.IcuZip) return new CluePackageAdapter();
             return new GeneralPackageAdapter();
         }

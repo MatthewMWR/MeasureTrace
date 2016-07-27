@@ -10,7 +10,6 @@ namespace MeasureTrace.TraceModel
     public class Trace
     {
         private readonly ConcurrentBag<IMeasurement> _measurements = new ConcurrentBag<IMeasurement>();
-        public IEnumerable<TraceAttribute> GetTraceAttributes() => _measurements.OfType<TraceAttribute>();
 
         //public int Id { get; set; }
 
@@ -20,6 +19,7 @@ namespace MeasureTrace.TraceModel
         public DateTime TraceSessionStart { get; set; }
         public DateTime TraceDataStart { get; set; }
         public DateTime TracePackageTime { get; set; }
+        public IEnumerable<TraceAttribute> GetTraceAttributes() => _measurements.OfType<TraceAttribute>();
 
         public void AddMeasurement(IMeasurement measurement)
         {
@@ -47,6 +47,5 @@ namespace MeasureTrace.TraceModel
         {
             return _measurements.GroupBy(m => m.GetType()).Select(g => g.Key);
         }
-
     }
 }

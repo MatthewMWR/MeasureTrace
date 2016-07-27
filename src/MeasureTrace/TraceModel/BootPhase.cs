@@ -1,6 +1,5 @@
 ﻿// Copyright and license at https://github.com/MatthewMWR/MeasureTrace/blob/master/LICENSE
 
-using System;
 using MeasureTrace.Calipers;
 
 namespace MeasureTrace.TraceModel

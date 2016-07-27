@@ -7,6 +7,10 @@ namespace MeasureTrace.TraceModel
 {
     public class WinlogonSubscriberTask : MeasurementWithDuration, IMeasurement
     {
+#pragma warning disable 169
+        // dummy "Backing field" for EF compat with no-setter properties
+        private string _subscriberNameSummary;
+#pragma warning restore 169
         public int Id { get; set; }
         public int MeasuredTraceId { get; set; }
         public int? SessionId { get; set; }
@@ -32,10 +36,7 @@ namespace MeasureTrace.TraceModel
                 return SubscriberName;
             }
         }
-#pragma warning disable 169
-        // dummy "Backing field" for EF compat with no-setter properties
-        private string _subscriberNameSummary;
-#pragma warning restore 169
+
         public int? ProcessId { get; set; }
         public WinlogonNotificationType NotificationType { get; set; }
         public Trace Trace { get; set; }

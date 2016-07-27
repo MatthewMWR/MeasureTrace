@@ -6,6 +6,10 @@ namespace MeasureTrace.TraceModel
 {
     public class LogicalDisk : IMeasurement
     {
+#pragma warning disable 169
+        // dummy "backing field" for compat with EF7
+        private bool _thisLogicalDiskContainsWinDir;
+#pragma warning restore 169
         public int DiskNumber { get; set; }
         public string LogicalDriveLetter { get; set; }
         public int DriveType { get; set; }
@@ -25,10 +29,6 @@ namespace MeasureTrace.TraceModel
                            StringComparison.OrdinalIgnoreCase);
             }
         }
-#pragma warning disable 169
-        // dummy "backing field" for compat with EF7
-        private bool _thisLogicalDiskContainsWinDir;
-#pragma warning restore 169
 
         public string SystemWideWinDirPath { get; set; }
         public string SystemWideWinDirSystem32Path { get; set; }

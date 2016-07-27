@@ -17,11 +17,10 @@ namespace MeasureTrace
     public sealed class TraceJob : IDisposable
     {
         private readonly IList<ICaliper> _calipers = new List<ICaliper>();
-        private int _deleteZipOutPathCurrentTry = 1;
         private readonly int _deleteZipOutPathMaxTry = 3;
+        private readonly string _callerSuppliedPath;
+        private int _deleteZipOutPathCurrentTry = 1;
         private string _processingPath;
-        private string _stablePath;
-        private string _callerSuppliedPath;
         private TracePackageType _tracePackageType;
         private DirectoryInfo _zipOutPath;
         public Action<IMeasurement> OnNewMeasurementAny;
@@ -34,7 +33,6 @@ namespace MeasureTrace
             MeasurementsInProgress = new ConcurrentBag<IMeasurement>();
             UserData = new ConcurrentDictionary<object, object>();
             _callerSuppliedPath = etlPath;
-
         }
 
         [UsedImplicitly]
@@ -80,7 +78,7 @@ namespace MeasureTrace
 
         public Trace Measure()
         {
-            if(EtwTraceEventSource == null) StageForProcessing();
+            if (EtwTraceEventSource == null) StageForProcessing();
             if (EtwTraceEventSource == null) throw new InvalidOperationException("Event source is null");
             OnNewMeasurementAny += m => Trace.AddMeasurement(m);
             foreach (var c in _calipers)
@@ -156,7 +154,6 @@ namespace MeasureTrace
             adapter.PopulateTraceAttributesFromFileName(Trace, etlPath);
             if (_tracePackageType == TracePackageType.GenericEtl)
             {
-                _stablePath = fileInfo.FullName;
                 _processingPath = fileInfo.FullName;
             }
             if (_tracePackageType == TracePackageType.BxrRZip || _tracePackageType == TracePackageType.GenericZip ||
@@ -167,11 +164,10 @@ namespace MeasureTrace
                 var tempEtlFileInfos = _zipOutPath.EnumerateFiles("*.etl");
                 var firstEtl = tempEtlFileInfos.FirstOrDefault();
                 if (firstEtl == null) throw new FileNotFoundException(_zipOutPath.FullName);
-                _stablePath = zipPath;
                 _processingPath = firstEtl.FullName;
             }
             EtwTraceEventSource = new ETWTraceEventSource(_processingPath);
-            if(_zipOutPath != null) adapter.PopulateTraceAttributesFromPackageContents(Trace, _zipOutPath.FullName);
+            if (_zipOutPath != null) adapter.PopulateTraceAttributesFromPackageContents(Trace, _zipOutPath.FullName);
             Trace.TraceSessionStart = EtwTraceEventSource.SessionStartTime;
         }
 

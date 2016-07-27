@@ -1,15 +1,18 @@
 ﻿// Copyright and license at https://github.com/MatthewMWR/MeasureTrace/blob/master/LICENSE
 
-using System;
-
 namespace MeasureTrace.TraceModel
 {
     public class ServiceTransition : MeasurementWithDuration, IMeasurement
     {
+#pragma warning disable 169
+        // dummy "Backing field" for EF compat with no-setter properties
+        private double _serviceNameSummary;
+#pragma warning restore 169
         public int Id { get; set; }
         public int MeasuredTraceId { get; set; }
         public string ServiceName { get; set; }
         public string DisplayName { get; set; }
+
         public string ServiceNameSummary
         {
             get
@@ -21,10 +24,6 @@ namespace MeasureTrace.TraceModel
                 return ServiceName;
             }
         }
-#pragma warning disable 169
-        // dummy "Backing field" for EF compat with no-setter properties
-        private double _serviceNameSummary;
-#pragma warning restore 169
 
         public ServiceExecutionPhase ExecutionPhase { get; set; }
         public string ServiceProcessName { get; set; }
