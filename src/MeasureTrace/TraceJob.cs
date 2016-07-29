@@ -149,6 +149,8 @@ namespace MeasureTrace
             var fileInfo = new FileInfo(etlPath);
             if (fileInfo == null) throw new FileNotFoundException(etlPath);
             if (!fileInfo.Exists) throw new FileNotFoundException(etlPath);
+            Trace.PackageFileNameFull = fileInfo.FullName;
+            Trace.PackageFileName = fileInfo.Name;
             _tracePackageType = TraceJobExtension.ResolvePackageType(etlPath);
             var adapter = TraceJobExtension.GetPackageAdapter(_tracePackageType);
             adapter.PopulateTraceAttributesFromFileName(Trace, etlPath);
