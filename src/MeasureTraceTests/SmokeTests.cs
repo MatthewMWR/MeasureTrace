@@ -87,6 +87,11 @@ namespace MeasureTraceTests
                 Assert.NotEmpty(t.GetMeasurements<PhysicalDisk>());
                 Assert.NotEmpty(t.GetMeasurements<LogicalDisk>());
                 Assert.False(t.GetMeasurements<SystemSleep>().Any());
+                Assert.True(string.Equals(t.PackageFileNameFull, destPath, StringComparison.OrdinalIgnoreCase));
+                var packageRelName = Path.GetFileName(destPath);
+                Assert.True(string.Equals(t.PackageFileNameFull, destPath, StringComparison.OrdinalIgnoreCase));
+                Assert.True(string.Equals(Path.GetFileName(t.PackageFileNameFull), packageRelName, StringComparison.OrdinalIgnoreCase));
+
             }
         }
     }

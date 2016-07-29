@@ -59,7 +59,7 @@ namespace MeasureTrace
         {
             EtwTraceEventSource?.Dispose();
             if (_zipOutPath == null) return;
-            while (_zipOutPath.Exists && _deleteZipOutPathCurrentTry <= _deleteZipOutPathMaxTry)
+            while ( Directory.Exists(_zipOutPath.FullName) && _deleteZipOutPathCurrentTry <= _deleteZipOutPathMaxTry)
             {
                 _deleteZipOutPathCurrentTry++;
                 try
@@ -72,7 +72,7 @@ namespace MeasureTrace
                     Thread.Sleep(1000);
                 }
             }
-            if (_zipOutPath.Exists)
+            if (Directory.Exists(_zipOutPath.FullName))
                 Logging.LogDebugMessage($"Temp dir could not be deleted automatically {_zipOutPath.FullName}");
         }
 
