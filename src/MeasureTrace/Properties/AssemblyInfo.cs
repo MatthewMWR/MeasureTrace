@@ -10,7 +10,7 @@ using System.Runtime.InteropServices;
     AssemblyDescription(
         "Measuring operations of interest from event traces. Info at https://github.com/MatthewMWR/MeasureTrace")]
 [assembly: AssemblyCompany("Sample code from mreyn@microsoft.com")]
-[assembly: AssemblyCopyright("Copyright © 2016 Matthew Reynolds / Microsoft")]
+[assembly: AssemblyCopyright("Copyright © Microsoft")]
 
 
 // Setting ComVisible to false makes the types in this assembly not visible 
@@ -34,4 +34,4 @@ using System.Runtime.InteropServices;
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
 
-[assembly: AssemblyVersion("1.0.*")]
+[assembly: AssemblyVersion("0.3.*")]

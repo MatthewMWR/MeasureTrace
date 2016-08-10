@@ -196,3 +196,4 @@ FakesAssemblies/
 *.opt
 /boneyard/OLD__MeasureTraceTests
 /boneyard
+/src/MeasureTraceTests/TestData/BOOT__GenericLightlyManaged
