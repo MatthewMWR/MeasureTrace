@@ -1,5 +1,5 @@
-﻿// Copyright and license at https://github.com/MatthewMWR/MeasureTrace/blob/master/LICENSE
-
+﻿//  Written and shared by Microsoft employee Matthew Reynolds in the spirit of "Small OSS libraries, tool, and sample code" OSS policy
+//  MIT license https://github.com/MatthewMWR/MeasureTrace/blob/master/LICENSE 
 using System;
 using System.IO;
 using System.Linq;
@@ -36,8 +36,8 @@ namespace MeasureTraceTests.Calipers
                 var powerOnTillDesktopResponsive =
                     t.GetMeasurements<MeasureTrace.TraceModel.BootPhase>()
                         .First(bp => bp.BootPhaseType == BootPhaseType.FromPowerOnUntilDesktopResponsive);
-                Assert.True(powerOnTillDesktopResponsive.DurationSeconds > 36);
-                Assert.True(powerOnTillDesktopResponsive.DurationSeconds < 37);
+                Assert.True(powerOnTillDesktopResponsive.DurationSeconds > 39);
+                Assert.True(powerOnTillDesktopResponsive.DurationSeconds < 40);
                 Assert.True(t.GetMeasurements<TerminalSession>().Count() == 3);
             }
         }

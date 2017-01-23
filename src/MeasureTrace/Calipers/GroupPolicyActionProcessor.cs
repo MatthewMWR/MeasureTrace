@@ -1,5 +1,5 @@
-﻿// Copyright and license at https://github.com/MatthewMWR/MeasureTrace/blob/master/LICENSE
-
+﻿//  Written and shared by Microsoft employee Matthew Reynolds in the spirit of "Small OSS libraries, tool, and sample code" OSS policy
+//  MIT license https://github.com/MatthewMWR/MeasureTrace/blob/master/LICENSE 
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,13 +12,12 @@ using Microsoft.Diagnostics.Tracing;
 
 namespace MeasureTrace.Calipers
 {
-    public class GroupPolicyActionProcessor : ProcessorBase, IObserver<IMeasurement>, IObserver<TraceEvent>
+    public class GroupPolicyActionProcessor : ProcessorBase, IObserver<TraceEvent>
     {
         private readonly List<IsConsumedDecorator<TraceEvent>> _gpEvents = new List<IsConsumedDecorator<TraceEvent>>();
 
-        public void OnNext(IMeasurement value)
+        public void ConsumeWinlogonSubscriberTask(TraceModel.WinlogonSubscriberTask wlMeasurement)
         {
-            var wlMeasurement = (WinlogonSubscriberTask) value;
             if (wlMeasurement != null)
             {
                 AssembleGpActionsAsPossible();
@@ -45,10 +44,7 @@ namespace MeasureTrace.Calipers
                     .Subscribe(this)
                 );
 
-            Subscriptions.Add(
-                traceJob.RegisterProcessorByType<WinlogonSubscriberProcessor>(
-                    ProcessorTypeCollisionOption.UseExistingIfFound).Subscribe(this)
-                );
+            traceJob.OnNewMeasurementOfType<TraceModel.WinlogonSubscriberTask>(x => ConsumeWinlogonSubscriberTask(x));
         }
 
         private void AssembleGpActionsAsPossible()

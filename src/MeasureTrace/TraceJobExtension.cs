@@ -1,4 +1,6 @@
-﻿using System;
+﻿//  Written and shared by Microsoft employee Matthew Reynolds in the spirit of "Small OSS libraries, tool, and sample code" OSS policy
+//  MIT license https://github.com/MatthewMWR/MeasureTrace/blob/master/LICENSE 
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -15,7 +17,7 @@ namespace MeasureTrace
         {
             foreach (var ct in GetKnownCaliperTypes())
             {
-                traceJob.RegisterCaliper((ICaliper) Activator.CreateInstance(ct));
+                traceJob.RegisterCaliperIfUniqueType((ICaliper)Activator.CreateInstance(ct));
             }
             foreach (var pt in GetKnownProcessorTypes())
             {

@@ -1,10 +1,9 @@
-﻿// Copyright and license at https://github.com/MatthewMWR/MeasureTrace/blob/master/LICENSE
-
+﻿//  Written and shared by Microsoft employee Matthew Reynolds in the spirit of "Small OSS libraries, tool, and sample code" OSS policy
+//  MIT license https://github.com/MatthewMWR/MeasureTrace/blob/master/LICENSE 
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.ServiceProcess;
-using JetBrains.Annotations;
 using MeasureTrace.CalipersModel;
 using MeasureTrace.TraceModel;
 using Microsoft.Diagnostics.Tracing;
@@ -89,8 +88,8 @@ namespace MeasureTrace.Calipers
                 e => _sysConfigServicesEvents.Add((SystemConfigServicesTraceData) e.Clone());
         }
 
-        private static ServiceTransition MakeServiceTransition([NotNull] TraceEvent startEvent,
-            [NotNull] TraceEvent stopEvent,
+        private static ServiceTransition MakeServiceTransition(TraceEvent startEvent,
+            TraceEvent stopEvent,
             ServiceTransitionTypeEx transitionType)
         {
             var imageName = (string) stopEvent.PayloadByName("ImageName");

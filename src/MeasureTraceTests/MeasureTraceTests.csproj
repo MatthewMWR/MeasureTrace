@@ -87,6 +87,7 @@
     <Compile Include="Calipers\TraceJobExtensionTests.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="MeasureTraceTests.licenseheader" />
     <None Include="packages.config" />
     <None Include="TestData\20160107-103455_CLINTH-SP3_UserInitiated.zip">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>

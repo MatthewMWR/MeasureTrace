@@ -1,5 +1,5 @@
-﻿// Copyright and license at https://github.com/MatthewMWR/MeasureTrace/blob/master/LICENSE
-
+﻿//  Written and shared by Microsoft employee Matthew Reynolds in the spirit of "Small OSS libraries, tool, and sample code" OSS policy
+//  MIT license https://github.com/MatthewMWR/MeasureTrace/blob/master/LICENSE 
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,11 +23,15 @@ namespace MeasureTrace.Calipers
         private const int WinlogonSystemBootEventId = 5007;
         private const int WinlogonWelcomeScreenStartId = 201;
         private const int IdleAccumulationCutoffMs = 3000;
-
+        public IEnumerable<Type> DependsOnCalipers => new List<Type> { typeof(Calipers.TerminalSession) };
         private readonly ICollection<TraceModel.BootPhase> _alreadyRegisteredBootPhases =
             new List<TraceModel.BootPhase>();
-
+        private double accumulatedIdleTimestampAtFirstTimeThresholdExceeded = 0;
+        private int accumulatedIdleValueAtFirstTimeThresholdExceeded = 0;
+        private double accumulatedIdleTimestampAtLastObserved = 0;
+        private int accumulatedIdleValueAtLastObserved = 0;
         private int _countOfPowerOnToReadyForLogon;
+        private TraceModel.TerminalSession firstLogonSession;
 
         public void RegisterFirstPass(TraceJob traceJob)
         {
@@ -36,32 +40,29 @@ namespace MeasureTrace.Calipers
 
         public void RegisterSecondPass(TraceJob traceJob)
         {
-            traceJob.RegisterProcessorByType<TerminalSessionProcessor>(ProcessorTypeCollisionOption.UseExistingIfFound);
-
             traceJob.OnNewMeasurementOfType<TraceModel.BootPhase>(bp => _alreadyRegisteredBootPhases.Add(bp));
 
-            traceJob.OnNewMeasurementOfType<TerminalSession>(ts =>
+            traceJob.OnNewMeasurementOfType<TraceModel.TerminalSession>(ts =>
             {
                 if (
                     _alreadyRegisteredBootPhases.Any(
                         em => em.BootPhaseType == BootPhaseType.FromLogonUntilDesktopAppears)) return;
                 if (ts.ExplorerProcessId == 0) return;
-                traceJob.PublishMeasurement(
-                    new TraceModel.BootPhase
-                    {
-                        BootPhaseObserver = BootPhaseObserver.MeasureTrace,
-                        BootPhaseType = BootPhaseType.FromLogonUntilDesktopAppears,
-                        DurationMSec = ts.LogonCredentialEntryToShellReady
-                    }
-                    );
-                traceJob.PublishMeasurement(
-                    new TraceModel.BootPhase
-                    {
-                        BootPhaseObserver = BootPhaseObserver.MeasureTrace,
-                        BootPhaseType = BootPhaseType.FromPowerOnUntilDesktopAppears,
-                        DurationMSec = ts.ShellReadyOffsetMSec
-                    }
-                    );
+                var fromLogonUntilDesktopAppears = new TraceModel.BootPhase
+                {
+                    BootPhaseObserver = BootPhaseObserver.MeasureTrace,
+                    BootPhaseType = BootPhaseType.FromLogonUntilDesktopAppears,
+                    DurationMSec = ts.LogonCredentialEntryToShellReady
+                };
+                if (firstLogonSession == null) firstLogonSession = ts;
+                var bootToDesktop = new TraceModel.BootPhase
+                {
+                    BootPhaseObserver = BootPhaseObserver.MeasureTrace,
+                    BootPhaseType = BootPhaseType.FromPowerOnUntilDesktopAppears,
+                    DurationMSec = ts.ShellReadyOffsetMSec
+                };
+                traceJob.PublishMeasurement(fromLogonUntilDesktopAppears);
+                traceJob.PublishMeasurement(bootToDesktop);
             });
 
             traceJob.EtwTraceEventSource.Registered.AddCallbackForProviderEvents((pn, en) =>
@@ -91,34 +92,41 @@ namespace MeasureTrace.Calipers
                 return EventFilterResponse.AcceptEvent;
             }, e =>
             {
-                if (PerfTrackIdleDetectionInfoEventId == (int) e.ID &&
+                if (PerfTrackIdleDetectionInfoEventId == (int)e.ID &&
                     _alreadyRegisteredBootPhases.All(
                         bp => bp.BootPhaseType != BootPhaseType.FromDesktopAppearsUntilDesktopResponsive))
                 {
                     var accumulatedIdleMs = Convert.ToInt32(e.PayloadValue(0));
-                    if (IdleAccumulationCutoffMs > accumulatedIdleMs) return;
-                    var postBootEndOffsetMinusAccumulatedIdle = e.TimeStampRelativeMSec - accumulatedIdleMs;
-                    var bootToDesktop =
-                        _alreadyRegisteredBootPhases.FirstOrDefault(
-                            bp => bp.BootPhaseType == BootPhaseType.FromPowerOnUntilDesktopAppears);
-                    if (bootToDesktop == null) return;
-                    var postBootOnlyRawDurationMs = postBootEndOffsetMinusAccumulatedIdle - bootToDesktop.DurationMSec;
-                    var postBootDurationCleaned = CalculateRollOffPostBootValue(postBootOnlyRawDurationMs.Value);
-                    var desktopAppearsToDestkopResponsive = new TraceModel.BootPhase
+                    accumulatedIdleValueAtLastObserved = accumulatedIdleMs;
+                    accumulatedIdleTimestampAtLastObserved = e.TimeStampRelativeMSec;
+                    if (accumulatedIdleMs > IdleAccumulationCutoffMs && accumulatedIdleValueAtFirstTimeThresholdExceeded == 0)
                     {
-                        BootPhaseObserver = BootPhaseObserver.MeasureTrace,
-                        BootPhaseType = BootPhaseType.FromDesktopAppearsUntilDesktopResponsive,
-                        DurationMSec = postBootDurationCleaned
-                    };
-                    traceJob.PublishMeasurement(desktopAppearsToDestkopResponsive);
-                    traceJob.PublishMeasurement(new TraceModel.BootPhase
-                    {
-                        BootPhaseObserver = BootPhaseObserver.MeasureTrace,
-                        BootPhaseType = BootPhaseType.FromPowerOnUntilDesktopResponsive,
-                        DurationMSec = bootToDesktop.DurationMSec + desktopAppearsToDestkopResponsive.DurationMSec
-                    });
+                        accumulatedIdleValueAtFirstTimeThresholdExceeded = accumulatedIdleMs;
+                        accumulatedIdleTimestampAtFirstTimeThresholdExceeded = e.TimeStampRelativeMSec;
+
+                    }
                 }
             });
+
+            traceJob.EtwTraceEventSource.Completed += () =>
+            {
+                var bootToDesktop = _alreadyRegisteredBootPhases.FirstOrDefault(bp => bp.BootPhaseType == BootPhaseType.FromPowerOnUntilDesktopAppears);
+                if (bootToDesktop == null) return;
+                var postBootDurationCleaned = CalculateRollOffPostBootValue(accumulatedIdleTimestampAtFirstTimeThresholdExceeded - bootToDesktop.DurationMSec.Value);
+                var desktopAppearsToDestkopResponsive = new TraceModel.BootPhase
+                {
+                    BootPhaseObserver = BootPhaseObserver.MeasureTrace,
+                    BootPhaseType = BootPhaseType.FromDesktopAppearsUntilDesktopResponsive,
+                    DurationMSec = postBootDurationCleaned
+                };
+                traceJob.PublishMeasurement(desktopAppearsToDestkopResponsive);
+                traceJob.PublishMeasurement( new TraceModel.BootPhase
+                {
+                    BootPhaseObserver = BootPhaseObserver.MeasureTrace,
+                    BootPhaseType = BootPhaseType.FromPowerOnUntilDesktopResponsive,
+                    DurationMSec = bootToDesktop.DurationMSec + desktopAppearsToDestkopResponsive.DurationMSec
+                });
+            };
         }
 
         /// <summary>

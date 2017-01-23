@@ -1,5 +1,5 @@
-﻿// Copyright and license at https://github.com/MatthewMWR/MeasureTrace/blob/master/LICENSE
-
+﻿//  Written and shared by Microsoft employee Matthew Reynolds in the spirit of "Small OSS libraries, tool, and sample code" OSS policy
+//  MIT license https://github.com/MatthewMWR/MeasureTrace/blob/master/LICENSE 
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,6 +19,7 @@ namespace MeasureTrace.Calipers
         private int _currentIntervalIndex;
         private double _nextTimeSliceStartOffsetMSec;
         private TraceJob _traceJob;
+        public IEnumerable<Type> DependsOnCalipers => new List<Type> { };
 
         public Action Aggregator;
 

@@ -1,11 +1,15 @@
-﻿using System;
-using JetBrains.Annotations;
+﻿//  Written and shared by Microsoft employee Matthew Reynolds in the spirit of "Small OSS libraries, tool, and sample code" OSS policy
+//  MIT license https://github.com/MatthewMWR/MeasureTrace/blob/master/LICENSE 
+using System;
 using MeasureTrace.CalipersModel;
+using System.Collections.Generic;
 
 namespace MeasureTrace.Calipers
 {
     public class TraceAttribute : ICaliper
     {
+        public IEnumerable<Type> DependsOnCalipers => new List<Type> { };
+
         public void RegisterFirstPass(TraceJob traceJob)
         {
             traceJob.EtwTraceEventSource.Kernel.SystemConfigCPU +=
@@ -49,7 +53,6 @@ namespace MeasureTrace.Calipers
                 );
         }
 
-        [UsedImplicitly]
         private static void PublishSysConfigAttribute(TraceJob traceJob, string propertyName, double doubleValue)
         {
             traceJob.PublishMeasurement(

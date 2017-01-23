@@ -1,12 +1,11 @@
-﻿// Copyright and license at https://github.com/MatthewMWR/MeasureTrace/blob/master/LICENSE
-
+﻿//  Written and shared by Microsoft employee Matthew Reynolds in the spirit of "Small OSS libraries, tool, and sample code" OSS policy
+//  MIT license https://github.com/MatthewMWR/MeasureTrace/blob/master/LICENSE 
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading;
-using JetBrains.Annotations;
 using MeasureTrace.Adapters;
 using MeasureTrace.CalipersModel;
 using MeasureTrace.TraceModel;
@@ -26,7 +25,7 @@ namespace MeasureTrace
         public Action<IMeasurement> OnNewMeasurementAny;
         public IList<ProcessorBase> V1ProcessorsInternallyOwned = new List<ProcessorBase>();
 
-        public TraceJob([NotNull] string etlPath)
+        public TraceJob(string etlPath)
         {
             if (string.IsNullOrWhiteSpace(etlPath)) throw new FileNotFoundException();
             Trace = new Trace();
@@ -35,7 +34,6 @@ namespace MeasureTrace
             _callerSuppliedPath = etlPath;
         }
 
-        [UsedImplicitly]
         public TraceJob(Trace sparseTrace)
         {
             if (sparseTrace == null) throw new ArgumentNullException(nameof(sparseTrace));
@@ -111,13 +109,26 @@ namespace MeasureTrace
 
         public void RegisterCaliperByType<TCaliper>() where TCaliper : ICaliper, new()
         {
-            var c = new TCaliper();
-            _calipers.Add(c);
+            var newCaliper = new TCaliper();
+
+            RegisterCaliperIfUniqueType(newCaliper);
+            // TODO FUTURE: Add a brake for circular dependencies
+            foreach (var caliperType in newCaliper.DependsOnCalipers)
+            {
+                RegisterCaliperIfUniqueType((ICaliper)Activator.CreateInstance(caliperType));
+            }
         }
 
-        public void RegisterCaliper(ICaliper caliper)
+        private void RegisterCaliper(ICaliper caliper)
         {
             _calipers.Add(caliper);
+        }
+
+        internal void RegisterCaliperIfUniqueType<TCaliper>(TCaliper newCaliper) where TCaliper : ICaliper
+        {
+            var newCaliperType = newCaliper.GetType();
+            if (_calipers.Any(ec => ec.GetType().Equals(newCaliperType))) return;
+            RegisterCaliper(newCaliper);
         }
 
         public void OnNewMeasurementOfType<TMeasurement>(Delegate myDelegate)

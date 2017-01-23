@@ -1,5 +1,5 @@
-﻿// Copyright and license at https://github.com/MatthewMWR/MeasureTrace/blob/master/LICENSE
-
+﻿//  Written and shared by Microsoft employee Matthew Reynolds in the spirit of "Small OSS libraries, tool, and sample code" OSS policy
+//  MIT license https://github.com/MatthewMWR/MeasureTrace/blob/master/LICENSE 
 namespace MeasureTrace.TraceModel
 {
     public class ServiceTransition : MeasurementWithDuration, IMeasurement
@@ -9,7 +9,6 @@ namespace MeasureTrace.TraceModel
         private double _serviceNameSummary;
 #pragma warning restore 169
         public int Id { get; set; }
-        public int MeasuredTraceId { get; set; }
         public string ServiceName { get; set; }
         public string DisplayName { get; set; }
 
